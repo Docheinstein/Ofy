@@ -1,10 +1,10 @@
 import httpx
 import pytest
 
-from offliner.config import Settings
-from offliner.lyrics import select
-from offliner.lyrics.service import LyricsOutcome, fetch_for_model, write_sidecar
-from offliner.tagging.model import TagModel
+from ofy.config import Settings
+from ofy.lyrics import select
+from ofy.lyrics.service import LyricsOutcome, fetch_for_model, write_sidecar
+from ofy.tagging.model import TagModel
 
 SYNCED = "[00:24.24]In the next world war\n[00:32.39]In a jackknifed juggernaut\n[00:36.87]I am born again"
 PLAIN = "In the next world war\nIn a jackknifed juggernaut\nI am born again"
@@ -111,7 +111,7 @@ async def test_get_hit_sends_expected_params():
     path, params, ua = calls[0]
     assert path == "/api/get"
     assert params == {"artist_name": "Radiohead", "track_name": "Airbag", "album_name": "OK Computer", "duration": "284"}
-    assert ua.startswith("Offliner/")
+    assert ua.startswith("Ofy/")
 
 
 async def test_404_falls_back_to_search():

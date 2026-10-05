@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from offliner import desktop
-from offliner.config import default_data_dir, default_library_dir, default_static_dir
+from ofy import desktop
+from ofy.config import default_data_dir, default_library_dir, default_static_dir
 
 
 def test_pick_port_prefers_free_port():
@@ -113,11 +113,62 @@ def test_gtk_bindings_link_only_gi(tmp_path, monkeypatch):
 
 
 def test_defaults_are_absolute_and_cwd_independent():
-    assert default_data_dir().is_absolute() and default_data_dir().name.lower() == "offliner"
-    assert default_library_dir() == Path.home() / "Music" / "Offliner"
+    assert default_data_dir().is_absolute() and default_data_dir().name.lower() == "ofy"
+    assert default_library_dir() == Path.home() / "Music" / "Ofy"
     assert default_static_dir().parts[-2:] == ("frontend", "dist")
 
 
 def test_desktop_entry():
-    e = desktop.desktop_entry("/x/offliner-desktop", Path("/x/favicon.svg"))
-    assert e.startswith("[Desktop Entry]\n") and "Exec=/x/offliner-desktop\n" in e and "Terminal=false" in e
+    e = desktop.desktop_entry("/x/ofy-desktop", Path("/x/favicon.svg"))
+    assert e.startswith("[Desktop Entry]\n") and "Exec=/x/ofy-desktop\n" in e and "Terminal=false" in e
+
+
+def test_migrate_legacy_data_dir(tmp_path, monkeypatch):
+    from ofy import config
+
+    monkeypatch.delenv("OFY_DATA_DIR", raising=False)
+    monkeypatch.setattr(config.sys, "platform", "linux")
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    old = tmp_path / "offliner"
+    old.mkdir()
+    (old / "offliner.db").write_text("db")
+    (old / "offliner.db-wal").write_text("wal")
+    (old / "covers").mkdir()
+    (old / "webview" / "cache").mkdir(parents=True)
+    (old / "webview" / "localstorage").mkdir()
+    assert config.migrate_legacy_data_dir() == tmp_path / "ofy"
+    new = tmp_path / "ofy"
+    assert not old.exists()
+    assert (new / "ofy.db").read_text() == "db" and (new / "ofy.db-wal").exists() and (new / "covers").is_dir()
+    assert not (new / "webview" / "cache").exists() and (new / "webview" / "localstorage").is_dir()
+    assert config.migrate_legacy_data_dir() is None  # one-time
+
+
+def test_migration_skipped_while_old_instance_runs(tmp_path, monkeypatch):
+    from ofy import config
+
+    monkeypatch.delenv("OFY_DATA_DIR", raising=False)
+    monkeypatch.setattr(config.sys, "platform", "linux")
+    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
+    (tmp_path / "offliner").mkdir()
+    (tmp_path / "offliner" / "desktop-instance.json").write_text("{}")
+    assert config.migrate_legacy_data_dir() is None
+    assert (tmp_path / "offliner").exists()
+
+
+def test_spa_cache_headers(tmp_path):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    from ofy.main import _mount_spa
+
+    (tmp_path / "assets").mkdir()
+    (tmp_path / "index.html").write_text("<title>Ofy</title>")
+    (tmp_path / "assets" / "index-abc123.js").write_text("x")
+    app = FastAPI()
+    _mount_spa(app, tmp_path)
+    c = TestClient(app)
+    assert c.get("/").headers["cache-control"] == "no-cache"
+    assert c.get("/library").headers["cache-control"] == "no-cache"
+    assert "immutable" in c.get("/assets/index-abc123.js").headers["cache-control"]
+    assert c.get("/api/nope").status_code == 404

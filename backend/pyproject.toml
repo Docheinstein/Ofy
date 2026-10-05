@@ -1,5 +1,5 @@
 [project]
-name = "offliner"
+name = "ofy"
 version = "0.1.0"
 description = "Self-hosted MusicBrainz-tagged offline music downloader"
 authors = [
@@ -19,8 +19,8 @@ dependencies = [
 ]
 
 [project.scripts]
-offliner = "offliner:main"
-offliner-desktop = "offliner.desktop:main"
+ofy = "ofy:main"
+ofy-desktop = "ofy.desktop:main"
 
 [project.optional-dependencies]
 # Alternative webview backend (bundles Qt WebEngine) for systems without GTK/WebKit bindings

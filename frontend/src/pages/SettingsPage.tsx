@@ -119,7 +119,7 @@ export function SettingsPage() {
             />
           </Field>
           <Field label="cookies.txt path" hint="Optional, for age-restricted content">
-            <Input value={form.cookies_path} placeholder="~/.config/offliner/cookies.txt" onChange={(e) => set("cookies_path", e.target.value)} />
+            <Input value={form.cookies_path} placeholder="~/.config/ofy/cookies.txt" onChange={(e) => set("cookies_path", e.target.value)} />
           </Field>
         </section>
 

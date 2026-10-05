@@ -2,7 +2,7 @@ import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-const backend = process.env.OFFLINER_BACKEND ?? "http://127.0.0.1:8080";
+const backend = process.env.OFY_BACKEND ?? "http://127.0.0.1:8080";
 
 export default defineConfig({
   plugins: [react()],

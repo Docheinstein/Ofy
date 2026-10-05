@@ -1,6 +1,6 @@
 import pytest
 
-from offliner.download.paths import (
+from ofy.download.paths import (
     DEFAULT_TEMPLATE,
     TemplateError,
     render_template,

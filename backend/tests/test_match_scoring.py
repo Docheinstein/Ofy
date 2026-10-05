@@ -1,6 +1,6 @@
-from offliner.match import scoring
-from offliner.match.engine import album_query_from_release
-from offliner.match.scoring import MBAlbumQuery, MBTrackQuery, YTCandidate
+from ofy.match import scoring
+from ofy.match.engine import album_query_from_release
+from ofy.match.scoring import MBAlbumQuery, MBTrackQuery, YTCandidate
 
 
 def test_normalize_and_similarity():

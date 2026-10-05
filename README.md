@@ -1,4 +1,4 @@
-# Offliner
+# Ofy
 
 A self-hosted, Spotify-style web app for **browsing music via MusicBrainz**, **downloading** songs and
 albums from **YouTube Music**, **tagging** them completely with MusicBrainz metadata (Picard-compatible, so
@@ -35,25 +35,27 @@ Node ≥ 20 on `PATH` for yt-dlp, see [Updating yt-dlp](#updating-yt-dlp)).
 | `./build.sh` | `uv sync` (backend) + `npm ci` (frontend, skipped when up to date) + `npm run build` |
 | `./build.sh --clean` | Same, after deleting `backend/.venv`, `frontend/node_modules` and `frontend/dist` |
 | `./build.sh --test` | Same, then runs the backend unit tests |
-| `./run.sh` | Desktop app (native window). Extra args go to `offliner-desktop`, e.g. `./run.sh desktop --debug` |
+| `./run.sh` | Desktop app (native window). Extra args go to `ofy-desktop`, e.g. `./run.sh desktop --debug` |
 | `./run.sh web [--port 8080]` | Web server only; UI at http://localhost:8080 |
 | `./run.sh dev` | Backend with auto-reload on :8080 + Vite dev server with hot reload on http://localhost:5173 (proxies `/api`); Ctrl-C stops both |
 
 `run.sh` rebuilds automatically when the virtualenv or `node_modules` is missing or older than its
-lockfile, or (for `desktop`/`web`) when any UI source is newer than `frontend/dist`. To add Offliner to
-your app menu: `cd backend && uv run offliner-desktop --install-shortcut`.
+lockfile, or (for `desktop`/`web`) when any UI source is newer than `frontend/dist`. To add Ofy to
+your app menu: `cd backend && uv run ofy-desktop --install-shortcut`.
 
 ### Desktop app
 
-`offliner-desktop` starts the backend in a background thread (listening on `127.0.0.1` only) and shows
+`ofy-desktop` starts the backend in a background thread (listening on `127.0.0.1` only) and shows
 the UI in a native window via [pywebview](https://pywebview.flowrl.com/). Closing the window stops the
 backend. If a backend for the same data directory is already running (another window, or the web server
 below) the window attaches to it instead of starting a second job queue on the same database.
 
-* Music goes to `~/Music/Offliner` by default (change it in Settings).
+* Music goes to `~/Music/Ofy` by default (change it in Settings).
 * App state (SQLite DB, MusicBrainz/YT caches, cover cache, temp files) lives in
-  `~/.local/share/offliner` (`$XDG_DATA_HOME/offliner`).
-* Set `OFFLINER_CONTACT=you@example.com` so the MusicBrainz/LRCLIB User-Agent carries a contact, as
+  `~/.local/share/ofy` (`$XDG_DATA_HOME/ofy`).
+* Upgrading from the app's former name (Offliner): `~/.local/share/offliner` is moved to `~/.local/share/ofy`
+  automatically on first start (only when the new folder doesn't exist yet and the old app isn't running).
+* Set `OFY_CONTACT=you@example.com` so the MusicBrainz/LRCLIB User-Agent carries a contact, as
   MusicBrainz asks.
 
 **Webview backends.** On Linux the window uses GTK + WebKitGTK. PyGObject has no pip wheels, so the
@@ -64,17 +66,17 @@ sudo apt install python3-gi gir1.2-webkit2-4.1 gstreamer1.0-libav gstreamer1.0-p
 ```
 
 `gstreamer1.0-libav` provides AAC/MP3 decoding for the player. Without GTK, use the Qt backend instead:
-`uv sync --extra qt && uv run offliner-desktop --gui qt`. macOS (WebKit) and Windows (Edge WebView2)
+`uv sync --extra qt && uv run ofy-desktop --gui qt`. macOS (WebKit) and Windows (Edge WebView2)
 need nothing extra.
 
-`uv run offliner-desktop --selftest [--play /api/stream/<recording-mbid>]` opens the window, checks
+`uv run ofy-desktop --selftest [--play /api/stream/<recording-mbid>]` opens the window, checks
 that the UI renders and which audio codecs the webview supports, optionally plays a stream, prints a
 JSON report and exits; use it to diagnose a machine.
 
 ### Web server mode
 
 The same app also runs as a plain web server (e.g. on a home server, used from any browser):
-`./run.sh web`, or directly `cd backend && uv run python -m offliner` (UI on http://localhost:8080).
+`./run.sh web`, or directly `cd backend && uv run python -m ofy` (UI on http://localhost:8080).
 
 ## Development
 
@@ -82,7 +84,7 @@ The same app also runs as a plain web server (e.g. on a home server, used from a
 both reload. The individual pieces, if you prefer separate terminals:
 
 ```bash
-cd backend && uv run uvicorn offliner.main:app --port 8080 --reload --reload-dir src
+cd backend && uv run uvicorn ofy.main:app --port 8080 --reload --reload-dir src
 cd frontend && npm run dev          # http://localhost:5173, proxies /api to :8080
 ```
 
@@ -104,8 +106,8 @@ concurrency) and "Refresh tags" (asserts no YouTube access and an unchanged audi
 
 ```bash
 # Matcher CLI: prints the chosen YT Music album and per-track matches + scores
-uv run python -m offliner.match "Radiohead" "OK Computer"
-uv run python -m offliner.match "Nirvana" "Nevermind" --threshold 0.8 -v
+uv run python -m ofy.match "Radiohead" "OK Computer"
+uv run python -m ofy.match "Nirvana" "Nevermind" --threshold 0.8 -v
 
 # Verify a downloaded album folder against MusicBrainz (tags, MBIDs, cover, ID3v2.4, sidecars)
 uv run python scripts/verify_album.py "music/Radiohead/1997 - OK Computer" <release-mbid> --format mp3
@@ -122,19 +124,19 @@ Environment variables (bootstrap, read at start):
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `OFFLINER_DATA_DIR` | `~/.local/share/offliner` | SQLite DB, caches, temp files |
-| `OFFLINER_LIBRARY_DIR` | `~/Music/Offliner` | Default library root |
-| `OFFLINER_PORT` / `OFFLINER_HOST` | `8080` / `0.0.0.0` (desktop: `127.0.0.1`) | HTTP listen address; the desktop app falls back to a free port if 8080 is taken |
-| `OFFLINER_CONTACT` | empty | Contact (email/URL) appended to the User-Agent |
-| `OFFLINER_STATIC_DIR` | `<repo>/frontend/dist` | Built frontend to serve |
-| `OFFLINER_MUSICBRAINZ_URL` | `https://musicbrainz.org/ws/2` | MusicBrainz WS/2 base (e.g. a mirror) |
-| `OFFLINER_SCAN_ON_STARTUP` | `1` | Reconcile DB with disk at startup |
+| `OFY_DATA_DIR` | `~/.local/share/ofy` | SQLite DB, caches, temp files |
+| `OFY_LIBRARY_DIR` | `~/Music/Ofy` | Default library root |
+| `OFY_PORT` / `OFY_HOST` | `8080` / `0.0.0.0` (desktop: `127.0.0.1`) | HTTP listen address; the desktop app falls back to a free port if 8080 is taken |
+| `OFY_CONTACT` | empty | Contact (email/URL) appended to the User-Agent |
+| `OFY_STATIC_DIR` | `<repo>/frontend/dist` | Built frontend to serve |
+| `OFY_MUSICBRAINZ_URL` | `https://musicbrainz.org/ws/2` | MusicBrainz WS/2 base (e.g. a mirror) |
+| `OFY_SCAN_ON_STARTUP` | `1` | Reconcile DB with disk at startup |
 
 Settings page (persisted in the DB, editable at runtime):
 
 | Setting | Default | Notes |
 |---|---|---|
-| Library path | `OFFLINER_LIBRARY_DIR` | Root folder for downloads |
+| Library path | `OFY_LIBRARY_DIR` | Root folder for downloads |
 | Path template | `{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}` | See below |
 | Output format | `mp3` | `mp3` (re-encode), `m4a` (copy when the source is AAC), `opus` (copy) |
 | MP3 quality | `320` | `320` kbps CBR or `v0` VBR |
@@ -234,7 +236,7 @@ play/pause/seek/volume/next/previous, and the lyrics panel highlights the curren
    synced-only results the timestamps are stripped.
 5. Lyrics are **best effort**: network errors, timeouts or HTTP errors are logged, the track still
    completes as `done` (status stays `none`), and existing sidecars are never deleted because of an error.
-6. Requests carry the Offliner User-Agent and are throttled (≥ 0.5 s apart).
+6. Requests carry the Ofy User-Agent and are throttled (≥ 0.5 s apart).
 7. "Fetch lyrics again" (track drawer) and "Fetch missing lyrics" (album page, Library page) retry
    tracks whose status is `none` or `not_found`.
 
@@ -297,7 +299,7 @@ update yt-dlp first:
 ```bash
 cd backend
 uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && uv sync
-# then restart Offliner (close and reopen the window, or restart `python -m offliner`)
+# then restart Ofy (close and reopen the window, or restart `python -m ofy`)
 ```
 
 `yt-dlp[default]` pulls in `yt-dlp-ejs` (the JS challenge solver scripts). yt-dlp also needs a JavaScript

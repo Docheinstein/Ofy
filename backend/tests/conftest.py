@@ -18,7 +18,7 @@ def fixture():
 
 @pytest.fixture
 def tmp_db(tmp_path, monkeypatch):
-    from offliner import db
+    from ofy import db
 
     engine = create_engine(f"sqlite:///{tmp_path / 'test.db'}", connect_args={"check_same_thread": False})
     db.set_engine(engine)
@@ -29,8 +29,8 @@ def tmp_db(tmp_path, monkeypatch):
 @pytest.fixture(autouse=True)
 def _reset_singletons():
     """Async clients/limiters bind to an event loop; give every test fresh ones."""
-    from offliner.match import ytm
-    from offliner.mb import client
+    from ofy.match import ytm
+    from ofy.mb import client
 
     client._client = None
     ytm._service = None

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Offliner: install backend + frontend dependencies and build the UI.
+# Build Ofy: install backend + frontend dependencies and build the UI.
 #
 #   ./build.sh            install deps (if needed) and build
 #   ./build.sh --clean    wipe node_modules, dist and the backend venv first

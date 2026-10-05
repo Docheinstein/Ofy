@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run Offliner. Builds first when the UI/dependencies are missing or out of date.
+# Run Ofy. Builds first when the UI/dependencies are missing or out of date.
 #
 #   ./run.sh              desktop app (native window)
 #   ./run.sh web          web server only: UI at http://localhost:8080
@@ -38,7 +38,7 @@ fi
 cd "$ROOT/backend"
 case "$MODE" in
   desktop)
-    exec uv run offliner-desktop "$@"
+    exec uv run ofy-desktop "$@"
     ;;
   web)
     PORT=8080
@@ -48,8 +48,8 @@ case "$MODE" in
         *) echo "unknown option for web: $1" >&2; exit 2 ;;
       esac
     done
-    echo "Offliner web UI: http://localhost:$PORT"
-    OFFLINER_PORT="$PORT" exec uv run python -m offliner
+    echo "Ofy web UI: http://localhost:$PORT"
+    OFY_PORT="$PORT" exec uv run python -m ofy
     ;;
   dev)
     # Job control puts each server in its own process group, so cleanup can stop the whole tree
@@ -62,7 +62,7 @@ case "$MODE" in
       wait 2>/dev/null || true
     }
     trap cleanup INT TERM EXIT
-    uv run uvicorn offliner.main:app --host 127.0.0.1 --port 8080 --reload --reload-dir src &
+    uv run uvicorn ofy.main:app --host 127.0.0.1 --port 8080 --reload --reload-dir src &
     pids+=($!)
     # Run Vite directly (not via `npm run`), npm doesn't reliably forward signals to it.
     (cd "$ROOT/frontend" && exec ./node_modules/.bin/vite --host 127.0.0.1) &

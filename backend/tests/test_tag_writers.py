@@ -5,9 +5,9 @@ from pathlib import Path
 import pytest
 from mutagen.id3 import ID3
 
-from offliner.tagging import writers
-from offliner.tagging.mapping import model_to_fields
-from offliner.tagging.model import build_tag_model
+from ofy.tagging import writers
+from ofy.tagging.mapping import model_to_fields
+from ofy.tagging.model import build_tag_model
 
 pytestmark = pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg required")
 

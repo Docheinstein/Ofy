@@ -15,7 +15,7 @@ export function Sidebar() {
       <div className="rounded-lg bg-surface px-3 py-4">
         <div className="mb-4 flex items-center gap-2 px-3 max-md:justify-center max-md:px-0">
           <img src="/favicon.svg" alt="" className="h-7 w-7" />
-          <span className="text-lg font-extrabold tracking-tight max-md:hidden">Offliner</span>
+          <span className="text-lg font-extrabold tracking-tight max-md:hidden">Ofy</span>
         </div>
         <nav className="flex flex-col gap-1">
           {items.map(({ to, label, icon: Icon }) => (

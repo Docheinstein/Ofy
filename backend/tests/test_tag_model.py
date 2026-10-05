@@ -1,5 +1,5 @@
-from offliner.tagging.mapping import model_to_fields
-from offliner.tagging.model import VARIOUS_ARTISTS_ID, build_tag_model, top_genres
+from ofy.tagging.mapping import model_to_fields
+from ofy.tagging.model import VARIOUS_ARTISTS_ID, build_tag_model, top_genres
 
 RELEASE_ID = "1834eae1-741b-3c03-9ca5-0df3decb43ea"
 RADIOHEAD = "a74b1b7f-71a5-4011-9441-d0b5e4122711"

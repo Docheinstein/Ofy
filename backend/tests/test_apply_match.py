@@ -1,7 +1,7 @@
-from offliner.db import Track, session
-from offliner.match.engine import TrackMatch
-from offliner.match.scoring import ScoredCandidate, YTCandidate
-from offliner.pipeline import apply_match, candidates_of
+from ofy.db import Track, session
+from ofy.match.engine import TrackMatch
+from ofy.match.scoring import ScoredCandidate, YTCandidate
+from ofy.pipeline import apply_match, candidates_of
 
 
 def _track():

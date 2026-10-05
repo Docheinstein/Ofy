@@ -1,6 +1,6 @@
 import asyncio
 
-from offliner.ratelimit import RateLimiter
+from ofy.ratelimit import RateLimiter
 
 
 class FakeClock:

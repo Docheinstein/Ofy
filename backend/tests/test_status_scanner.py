@@ -1,5 +1,5 @@
-from offliner.library.scanner import DbTrack, FoundFile, lyrics_from_sidecars, plan_reconcile
-from offliner.library.status import album_status, album_summary
+from ofy.library.scanner import DbTrack, FoundFile, lyrics_from_sidecars, plan_reconcile
+from ofy.library.status import album_status, album_summary
 
 
 def test_album_status_aggregation():

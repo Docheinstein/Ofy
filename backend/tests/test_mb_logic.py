@@ -1,4 +1,4 @@
-from offliner.mb import logic
+from ofy.mb import logic
 
 
 def test_artist_credit_string_with_join_phrases():

@@ -2,8 +2,8 @@
 
 import pytest
 
-from offliner.match.__main__ import resolve_release
-from offliner.match.engine import match_release
+from ofy.match.__main__ import resolve_release
+from ofy.match.engine import match_release
 
 pytestmark = pytest.mark.network
 

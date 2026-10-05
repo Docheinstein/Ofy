@@ -6,11 +6,11 @@ import subprocess
 
 import pytest
 
-from offliner import pipeline
-from offliner.config import Settings
-from offliner.db import Album, Job, Track, save_settings, session
-from offliner.tagging import writers
-from offliner.tagging.model import build_tag_model
+from ofy import pipeline
+from ofy.config import Settings
+from ofy.db import Album, Job, Track, save_settings, session
+from ofy.tagging import writers
+from ofy.tagging.model import build_tag_model
 
 pytestmark = pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg required")
 

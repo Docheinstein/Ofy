@@ -1,4 +1,4 @@
-GOAL: Build "Offliner", a self-hosted, Spotify-style web app for browsing music via MusicBrainz,
+GOAL: Build "Ofy", a self-hosted, Spotify-style web app for browsing music via MusicBrainz,
 downloading songs/albums offline from YouTube Music, tagging them fully with MusicBrainz metadata,
 and fetching lyrics from LRCLIB.
 
@@ -101,7 +101,7 @@ FUNCTIONAL REQUIREMENTS
 WORK PLAN — execute in this order, committing after each phase:
   0 skeleton + settings
   1 MusicBrainz browsing
-  2 matcher (+ CLI: `python -m offliner.match "<artist>" "<album>"` printing matches and scores)
+  2 matcher (+ CLI: `python -m ofy.match "<artist>" "<album>"` printing matches and scores)
   3 download pipeline (mp3 default)
   4 tagging (tag model + 3 writers + cover art + retag action)
   5 lyrics (LRCLIB client + sidecar files + embedding + statuses)
@@ -111,8 +111,8 @@ WORK PLAN — execute in this order, committing after each phase:
   9 desktop app (pywebview launcher, replaces Docker packaging)
 
 DEFINITION OF DONE (verify each yourself before declaring completion):
-- `uv run offliner-desktop` starts the backend and opens the UI in a native desktop window
-  (pywebview); closing the window shuts the backend down. `uv run python -m offliner` still runs
+- `uv run ofy-desktop` starts the backend and opens the UI in a native desktop window
+  (pywebview); closing the window shuts the backend down. `uv run python -m ofy` still runs
   the plain web server with the UI at http://localhost:8080.
 - Searching "Radiohead" → artist page → "OK Computer" shows 12 tracks with cover art.
 - The matcher CLI returns the official YT Music album for: Radiohead/OK Computer,

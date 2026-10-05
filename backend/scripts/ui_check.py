@@ -67,7 +67,7 @@ def ok(msg):
 
 async def run(base: str, chromium: str, shots: str | None) -> int:
     port = 9333
-    profile = tempfile.mkdtemp(prefix="offliner-ui-", dir=os.path.expanduser("~"))
+    profile = tempfile.mkdtemp(prefix="ofy-ui-", dir=os.path.expanduser("~"))
     proc = subprocess.Popen([
         chromium, "--headless=new", "--no-sandbox", "--disable-gpu", f"--remote-debugging-port={port}",
         f"--user-data-dir={profile}", "--autoplay-policy=no-user-gesture-required", "--mute-audio",

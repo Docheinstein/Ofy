@@ -16,10 +16,10 @@ from pathlib import Path
 
 from mutagen.id3 import ID3
 
-from offliner.mb.client import MusicBrainzClient
-from offliner.mb import logic
-from offliner.tagging.model import build_tag_model
-from offliner.tagging.writers import read_fields
+from ofy.mb.client import MusicBrainzClient
+from ofy.mb import logic
+from ofy.tagging.model import build_tag_model
+from ofy.tagging.writers import read_fields
 
 REQUIRED = [
     "title", "artist", "artists", "album", "albumartist", "artistsort", "albumartistsort",

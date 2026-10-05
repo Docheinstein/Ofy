@@ -3,9 +3,9 @@ import asyncio
 import pytest
 from sqlmodel import select
 
-from offliner import jobs as jobs_mod
-from offliner.db import Job, Track, recover_interrupted_jobs, session
-from offliner.jobs import JobQueue, PermanentError
+from ofy import jobs as jobs_mod
+from ofy.db import Job, Track, recover_interrupted_jobs, session
+from ofy.jobs import JobQueue, PermanentError
 
 
 @pytest.fixture
