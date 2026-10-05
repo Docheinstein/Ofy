@@ -1,0 +1,676 @@
+{
+ "title": "OK Computer",
+ "type": "Album",
+ "thumbnails": [
+  {
+   "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w60-h60-l90-rj",
+   "width": 60,
+   "height": 60
+  },
+  {
+   "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w120-h120-l90-rj",
+   "width": 120,
+   "height": 120
+  },
+  {
+   "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w226-h226-l90-rj",
+   "width": 226,
+   "height": 226
+  },
+  {
+   "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w544-h544-l90-rj",
+   "width": 544,
+   "height": 544
+  }
+ ],
+ "isExplicit": false,
+ "description": "OK Computer is the third studio album by the English rock band Radiohead, released on 21 May 1997. With their producer, Nigel Godrich, Radiohead recorded most of OK Computer in their rehearsal space in Oxfordshire and the historic mansion of St Catherine's Court in Bath in 1996 and early 1997. They distanced themselves from the guitar-centred and lyrically introspective style of their previous album, The Bends. OK Computer's abstract lyrics, densely layered sound and eclectic influences laid the groundwork for Radiohead's later, more experimental work.\nThe lyrics depict a dystopian world fraught with rampant consumerism, social alienation, technological anxiety and political corruption, while also exploring themes of transport, conformity, paranoia, death, modern British life and globalisation. In this capacity, OK Computer is said to have prescient insight into the mood of 21st-century life. Radiohead used unconventional production techniques, including natural reverberation, and used few overdubs. Strings were recorded at Abbey Road Studios in London.\nEMI had low expectations of OK Computer, deeming it uncommercial and difficult to market.\n\nFrom Wikipedia (https://en.wikipedia.org/wiki/OK_Comp...) under Creative Commons Attribution CC-BY-SA 3.0 (https://creativecommons.org/licenses/...)",
+ "descriptionRuns": [
+  {
+   "text": "OK Computer is the third studio album by the English rock band Radiohead, released on 21 May 1997. With their producer, Nigel Godrich, Radiohead recorded most of OK Computer in their rehearsal space in Oxfordshire and the historic mansion of St Catherine's Court in Bath in 1996 and early 1997. They distanced themselves from the guitar-centred and lyrically introspective style of their previous album, The Bends. OK Computer's abstract lyrics, densely layered sound and eclectic influences laid the groundwork for Radiohead's later, more experimental work.\nThe lyrics depict a dystopian world fraught with rampant consumerism, social alienation, technological anxiety and political corruption, while also exploring themes of transport, conformity, paranoia, death, modern British life and globalisation. In this capacity, OK Computer is said to have prescient insight into the mood of 21st-century life. Radiohead used unconventional production techniques, including natural reverberation, and used few overdubs. Strings were recorded at Abbey Road Studios in London.\nEMI had low expectations of OK Computer, deeming it uncommercial and difficult to market.\n\nFrom Wikipedia ("
+  },
+  {
+   "text": "https://en.wikipedia.org/wiki/OK_Comp...",
+   "url": "https://en.wikipedia.org/wiki/OK_Computer"
+  },
+  {
+   "text": ") under Creative Commons Attribution CC-BY-SA 3.0 ("
+  },
+  {
+   "text": "https://creativecommons.org/licenses/...",
+   "url": "https://creativecommons.org/licenses/by-sa/3.0/legalcode"
+  },
+  {
+   "text": ")"
+  }
+ ],
+ "year": "1997",
+ "artists": [
+  {
+   "name": "Radiohead",
+   "id": "UCr_iyUANcn9OX_yy9piYoLw"
+  }
+ ],
+ "trackCount": 12,
+ "duration": "53 minutes",
+ "audioPlaylistId": "OLAK5uy_nc6afxSnmK8OFML8dF9q_0D1MBMXsGnL4",
+ "likeStatus": "INDIFFERENT",
+ "tracks": [
+  {
+   "videoId": "jNY_wLukVW0",
+   "title": "Airbag",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpJtOdmt2pGSXAGzHv3KLFjmK5fjoTqK8fp3cy5Inq8bKYKldS8M7R3NW1yv5X7WdLtuIFiFPrufc9jJ7vwny4tbpTefsQ"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "19M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 1,
+   "duration": "4:48",
+   "duration_seconds": 288,
+   "creditsBrowseId": "MPTCjNY_wLukVW0"
+  },
+  {
+   "videoId": "fHiGbolFFGw",
+   "title": "Paranoid Android",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpKYlUUfPpz_mTGOnqopeXbd49ZQoBPeGDziQ1UvfagQXiUdoF1wb9heAslO0h6q3VqyaS-aMEaGrzXqOjaXScFOUTlX1g"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_OMV",
+   "views": "98M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 2,
+   "duration": "6:28",
+   "duration_seconds": 388,
+   "creditsBrowseId": "MPTCYTH8cxXBGBo"
+  },
+  {
+   "videoId": "_fTWmUlTEqE",
+   "title": "Subterranean Homesick Alien",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpLESWu4hArHLh9xyfthBHmfKabCtk4OeTy2dNwlgB1Fdn30eDY6v9eoX4xwPtwWrQznvDdKcGW9Xz7TFsUfKg_OOJFxEw"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "16M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 3,
+   "duration": "4:28",
+   "duration_seconds": 268,
+   "creditsBrowseId": "MPTC_fTWmUlTEqE"
+  },
+  {
+   "videoId": "Bf01riuiJWA",
+   "title": "Exit Music (For A Film)",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpJob0hVaiZiWES8uAOB_B9sm6FKJKc1JJZi5Tp5O_5r3JKq4klMxwc_qUrmgI1R8Bs_Gim0fcRG0PTLELL2HQ4vIIXPwQ"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "113M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 4,
+   "duration": "4:28",
+   "duration_seconds": 268,
+   "creditsBrowseId": "MPTCBf01riuiJWA"
+  },
+  {
+   "videoId": "duBCwvC1kP4",
+   "title": "Let Down",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpLJl2IjheDlsWlIbA4HRD663I-3GOi7cD20aHqrCmfEckjCxfWj61_92RJWyHFO4-80YIJslqMKsBZ4Xl11hKJ_WQh80w"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "214M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 5,
+   "duration": "5:00",
+   "duration_seconds": 300,
+   "creditsBrowseId": "MPTCduBCwvC1kP4"
+  },
+  {
+   "videoId": "1uYWYWPc9HU",
+   "title": "Karma Police",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpICK9fV7o2iqgW-dULRWcv5bIv9StlW2vj2YJs0vT55ekSQhf8wSjn_AaCQQfiwtIPQKu-SZVW15L50p4MU2wHC8DPk_g"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_OMV",
+   "views": "257M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 6,
+   "duration": "4:25",
+   "duration_seconds": 265,
+   "creditsBrowseId": "MPTC4IJI6soiQhI"
+  },
+  {
+   "videoId": "O4SzvsMFaek",
+   "title": "Fitter Happier",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpKcInpMpQdW2Z0VyIwf_kUOdw4VNLILY5h1xCHji--FgZhqMIYqUpRC-L7Kw9bziURUv07zAlo_PTLXINBfgL7Mi0WkaQ"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "5.8M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 7,
+   "duration": "1:58",
+   "duration_seconds": 118,
+   "creditsBrowseId": "MPTCO4SzvsMFaek"
+  },
+  {
+   "videoId": "3DtgWrFTtQk",
+   "title": "Electioneering",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpKYUAHuwTWr-j8kRUJ1SmDFqkuyY-q13C-udAAU0f3Aoi1ZMsUCVyvMtAHY-PlPslViMBijbgfqFytr-TwscXUJVD7U9Q"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "7.7M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 8,
+   "duration": "3:51",
+   "duration_seconds": 231,
+   "creditsBrowseId": "MPTC3DtgWrFTtQk"
+  },
+  {
+   "videoId": "XX4EpkR-Sp4",
+   "title": "Climbing Up the Walls",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpIegMAac-Pl5uGKD-Upywa_-1ZTvMhL-O4wcVeMy34yS1NujA-W29F7I-Zra_xNncDg9y8TSgIWl_N3zGG6OuzoXLYYhQ"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "12M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 9,
+   "duration": "4:46",
+   "duration_seconds": 286,
+   "creditsBrowseId": "MPTCXX4EpkR-Sp4"
+  },
+  {
+   "videoId": "u5CVsCnxyXg",
+   "title": "No Surprises",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpLuC1n9MwP86MaMkEMMFzuDSTU0CLxnjjj1Atjs2aeC55qPmluwWl1I3bMq-PJSki60VvSaIvxOPLrJyw82ZvooFs4b7w"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_OMV",
+   "views": "622M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 10,
+   "duration": "3:50",
+   "duration_seconds": 230,
+   "creditsBrowseId": "MPTCLBt60dfwEBY"
+  },
+  {
+   "videoId": "yuZYQvvLXVY",
+   "title": "Lucky",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpKdo8qDgUU9-mAGmd-qNsZHOTOUJnEwgGlAjkcE_E7nid5-rpASvdfvTbef0J4R8bI2V4GrqMUc1t7DZSCaQzPDFmXC9g"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "18M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 11,
+   "duration": "4:19",
+   "duration_seconds": 259,
+   "creditsBrowseId": "MPTCyuZYQvvLXVY"
+  },
+  {
+   "videoId": "HkgzObf8uVU",
+   "title": "The Tourist",
+   "artists": [
+    {
+     "name": "Radiohead",
+     "id": "UCr_iyUANcn9OX_yy9piYoLw"
+    }
+   ],
+   "album": "OK Computer",
+   "likeStatus": "INDIFFERENT",
+   "inLibrary": false,
+   "pinnedToListenAgain": false,
+   "feedbackTokens": {
+    "add": null,
+    "remove": "AB9zfpIEqRMcg9OKlXVdDRUONwNIOWaIojDy2mi4G_4BgrCeq44LNFNAaD81gX--Q8lT5MzVzCfiZBxmg_VRJbc694QaGJ8AMw"
+   },
+   "thumbnails": null,
+   "isAvailable": true,
+   "isExplicit": false,
+   "videoType": "MUSIC_VIDEO_TYPE_ATV",
+   "views": "9.4M plays",
+   "communityVoteStatus": null,
+   "trackNumber": 12,
+   "duration": "5:27",
+   "duration_seconds": 327,
+   "creditsBrowseId": "MPTCHkgzObf8uVU"
+  }
+ ],
+ "other_versions": [
+  {
+   "title": "OK Computer OKNOTOK 1997 2017",
+   "artists": [
+    {
+     "id": "UCr_iyUANcn9OX_yy9piYoLw",
+     "name": "Radiohead"
+    }
+   ],
+   "browseId": "MPREb_b9Yfli6Cg79",
+   "audioPlaylistId": "OLAK5uy_nrWDTVc119SmGtJikSfr6pnBo8LasacVw",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/gdMTA2cTkNFr6COYNygeVpgIpxR2yNg5MjaX02OQqmsU6NlymcR2mqWR0UZe2HaBYVSTHU8lIQamafQC=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/gdMTA2cTkNFr6COYNygeVpgIpxR2yNg5MjaX02OQqmsU6NlymcR2mqWR0UZe2HaBYVSTHU8lIQamafQC=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": true,
+   "type": "Album"
+  }
+ ],
+ "related_recommendations": [
+  {
+   "title": "Debut",
+   "artists": [
+    {
+     "id": "UCAjidy3vxRkgGVNIFqZMl_Q",
+     "name": "Bj\u00f6rk"
+    }
+   ],
+   "browseId": "MPREb_9gmsWXyh4tO",
+   "audioPlaylistId": "OLAK5uy_kgsJPW_zXnJqsaT7LscC7BkDYvPZjrboI",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/94SuTYi6HWsjNC7gTQeL80xm48TKdif9MA87NEJhxgH57sdo-Ws7igjLSOv5i05m3NeOZENI3fn-JtGZ=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/94SuTYi6HWsjNC7gTQeL80xm48TKdif9MA87NEJhxgH57sdo-Ws7igjLSOv5i05m3NeOZENI3fn-JtGZ=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  },
+  {
+   "title": "Pinkerton",
+   "artists": [
+    {
+     "id": "UCtHZHneyvFGwxg6MHcbMLAw",
+     "name": "Weezer"
+    }
+   ],
+   "browseId": "MPREb_nrpUXJsZqQ5",
+   "audioPlaylistId": "OLAK5uy_mzrn9lXFHM1uUV8acXxSXA18y1myHAehg",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/8dI7Ysfj7cOWagVYnQvNMWnTFgcCqvRBOux4E8dYrvfa8JzIVbeaVU2o-oS1_FPhOHnUbTYf8LLMMHA=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/8dI7Ysfj7cOWagVYnQvNMWnTFgcCqvRBOux4E8dYrvfa8JzIVbeaVU2o-oS1_FPhOHnUbTYf8LLMMHA=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": true,
+   "type": "Album"
+  },
+  {
+   "title": "In The Court Of The Crimson King (Expanded & Remastered Original Album Mix)",
+   "artists": [
+    {
+     "id": "UCXRfLRK3qq6aMo33p-UK7xw",
+     "name": "King Crimson"
+    }
+   ],
+   "browseId": "MPREb_gxyr1lXUABB",
+   "audioPlaylistId": "OLAK5uy_nWXlWaFTSuzrSIcz8QYOniPhKgDfnOvwI",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/Yq68wn4W4387uRHmPWIyii8jkAT8nd1uoFOMBb51TJy486IwYsAFWOstg27PnksZfqTZPYwTQ6Sb2Pvz=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/Yq68wn4W4387uRHmPWIyii8jkAT8nd1uoFOMBb51TJy486IwYsAFWOstg27PnksZfqTZPYwTQ6Sb2Pvz=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  },
+  {
+   "title": "Placebo",
+   "artists": [
+    {
+     "id": "UCvRshWZ4-nOQ_pKrlLSCHxA",
+     "name": "Placebo"
+    }
+   ],
+   "browseId": "MPREb_BaFZCT0AUAP",
+   "audioPlaylistId": "OLAK5uy_l-53NLHJ3ZJRMI_qYfDo9d4m161eaGPWc",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/iwnp4dH67oVD2PLAOmSbTebBqXVqAEVffmDQKfTwt0j62IpN51Kd6PoMc6nagyWmLCkf8b1DInxcWptk=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/iwnp4dH67oVD2PLAOmSbTebBqXVqAEVffmDQKfTwt0j62IpN51Kd6PoMc6nagyWmLCkf8b1DInxcWptk=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": true,
+   "type": "Album"
+  },
+  {
+   "title": "Origin of Symmetry",
+   "artists": [
+    {
+     "id": "UCw8jIQzB2mdvvo_CVplLxug",
+     "name": "Muse"
+    }
+   ],
+   "browseId": "MPREb_6si4Ckr7jcD",
+   "audioPlaylistId": "OLAK5uy_m4dwyBdE8KlD2obKTSlGp6hg5huY5qXnk",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/IimEK_f6ZYM-yBCQbdU-P4wUxggRZxKfawmaflEW40x5jk6fdLoo5CtBG61LNQqDnpnDqGvlhdk6vnOC=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/IimEK_f6ZYM-yBCQbdU-P4wUxggRZxKfawmaflEW40x5jk6fdLoo5CtBG61LNQqDnpnDqGvlhdk6vnOC=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  },
+  {
+   "title": "Pablo Honey",
+   "artists": [
+    {
+     "id": "UCr_iyUANcn9OX_yy9piYoLw",
+     "name": "Radiohead"
+    }
+   ],
+   "browseId": "MPREb_DciERiuADkS",
+   "audioPlaylistId": "OLAK5uy_lCl8VFn-xBO9PlDF2E0FXSjhaU0dLJP9I",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/_y-a_KSdeH1-sgxOUFspsHD-LPh-7hWcWcy8hSjC1td5rIiVRQWDK6ar_IRPhhogDXhtNaoV6p1rkPkG=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/_y-a_KSdeH1-sgxOUFspsHD-LPh-7hWcWcy8hSjC1td5rIiVRQWDK6ar_IRPhhogDXhtNaoV6p1rkPkG=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": true,
+   "type": "Album"
+  },
+  {
+   "title": "Montage Of Heck: The Home Recordings (Deluxe Soundtrack)",
+   "artists": [
+    {
+     "id": "UC9wzL8oSw8lD6ucrTSS6C_Q",
+     "name": "Kurt Cobain"
+    }
+   ],
+   "browseId": "MPREb_g4JLyeNm1Oq",
+   "audioPlaylistId": "OLAK5uy_mhUzD5yH1xg0sGlteBogv2fpfRzpoopSw",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/1jJdUr0rGFEHhj0TtmumXk5CJIn3nG0-yonvw85vOVmwC-0250c80aaoOnVDpxZC1FwUEcOKkVcALfU=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/1jJdUr0rGFEHhj0TtmumXk5CJIn3nG0-yonvw85vOVmwC-0250c80aaoOnVDpxZC1FwUEcOKkVcALfU=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": true,
+   "type": "Album"
+  },
+  {
+   "title": "Richard D. James Album",
+   "artists": [
+    {
+     "id": "UCWmnkYUzoOiOztmPBhIlZjg",
+     "name": "Aphex Twin"
+    }
+   ],
+   "browseId": "MPREb_pshmvle13Oe",
+   "audioPlaylistId": "OLAK5uy_kYR35B4ncA8wieeJxNroXlI8cSOVh3okU",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/dhTU_Xbw9l0giiaDjoL-7JpOnfsYujaxGCVpNRfcVsbs-VghXb8o74ACSrTfE9USIRH0ciSjvFvUSv4F=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/dhTU_Xbw9l0giiaDjoL-7JpOnfsYujaxGCVpNRfcVsbs-VghXb8o74ACSrTfE9USIRH0ciSjvFvUSv4F=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  },
+  {
+   "title": "Nowhere (Expanded)",
+   "artists": [
+    {
+     "id": "UC1agXNA0qr9yCDX6gYOcKAg",
+     "name": "Ride"
+    }
+   ],
+   "browseId": "MPREb_NVrtAYqRUvJ",
+   "audioPlaylistId": "OLAK5uy_kErAcwiGsbvXoeJcy2YpgAggrSwL_BXXU",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/OhbHDPoyMW_oQMiO153RenU4uDcSJKlPzWyxuo4dtMl2Y8hm4RWVVyi9Nca2Lq8ZqechxKo-j_Mbkm3T7A=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/OhbHDPoyMW_oQMiO153RenU4uDcSJKlPzWyxuo4dtMl2Y8hm4RWVVyi9Nca2Lq8ZqechxKo-j_Mbkm3T7A=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  },
+  {
+   "title": "The Velvet Underground (45th Anniversary)",
+   "artists": [
+    {
+     "id": "UCXNWrugB_J3sRBYR9idQWzg",
+     "name": "The Velvet Underground"
+    }
+   ],
+   "browseId": "MPREb_HfWBFgnATMT",
+   "audioPlaylistId": "OLAK5uy_nMWeotE4LJukuvChgJyIF2xMffbPbZY6o",
+   "thumbnails": [
+    {
+     "url": "https://yt3.googleusercontent.com/SQ74z4HF8xen6dNFfjCbgXvEMcu7AUbpChKMlAK-Cpxy-59zhIsi5jGQL03dTkPrF0oitD8lbEoPFldPOw=w226-h226-l90-rj",
+     "width": 226,
+     "height": 226
+    },
+    {
+     "url": "https://yt3.googleusercontent.com/SQ74z4HF8xen6dNFfjCbgXvEMcu7AUbpChKMlAK-Cpxy-59zhIsi5jGQL03dTkPrF0oitD8lbEoPFldPOw=w544-h544-l90-rj",
+     "width": 544,
+     "height": 544
+    }
+   ],
+   "isExplicit": false,
+   "type": "Album"
+  }
+ ],
+ "duration_seconds": 3228
+}

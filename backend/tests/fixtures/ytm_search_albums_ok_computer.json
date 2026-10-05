@@ -1,0 +1,782 @@
+[
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "OK Computer",
+  "type": "Album",
+  "playlistId": "OLAK5uy_nc6afxSnmK8OFML8dF9q_0D1MBMXsGnL4",
+  "duration": null,
+  "year": "1997",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_yXhSI4FCUo6",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/SPHeXqlEhzw-pPbAx3AQU4HSD-XuSMlPtLsptfvHOjOTd6F_1ZbELaOYn1d8-jGZ5HW8O1R0pLqausuVZw=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Kid A",
+  "type": "Album",
+  "playlistId": "OLAK5uy_lDotrFl8LXo4UMq_XeVB1areFI_b8Par8",
+  "duration": null,
+  "year": "2000",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_ob5cslgCNc0",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/yJLXG7QJySOUp57Nff9te1cqhRqvz9BHusWk8c9ek08m-DRv5TJhCqW0HV2tAk5K2ErChBlHEUeFfGt_6A=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/yJLXG7QJySOUp57Nff9te1cqhRqvz9BHusWk8c9ek08m-DRv5TJhCqW0HV2tAk5K2ErChBlHEUeFfGt_6A=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/yJLXG7QJySOUp57Nff9te1cqhRqvz9BHusWk8c9ek08m-DRv5TJhCqW0HV2tAk5K2ErChBlHEUeFfGt_6A=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/yJLXG7QJySOUp57Nff9te1cqhRqvz9BHusWk8c9ek08m-DRv5TJhCqW0HV2tAk5K2ErChBlHEUeFfGt_6A=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "OK COMPUTER.",
+  "type": "EP",
+  "playlistId": "OLAK5uy_nWJQ9R8L57SHY-TF1aGNpgof5Nj6V46-Y",
+  "duration": null,
+  "year": "2021",
+  "artists": [
+   {
+    "name": "MONTROPOLIS",
+    "id": "UCR7g04_J40AGoPqNQX_8Xpw"
+   }
+  ],
+  "browseId": "MPREb_jTa2yHfhzgv",
+  "isExplicit": true,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/7SPolJGhwFwG0gHG9gqw_INPbom3_RxwmYdDWGOkWh2AuGe4mRUVbCnc5vrpvUEPsjG2Rz_TwUtDnBSM=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/7SPolJGhwFwG0gHG9gqw_INPbom3_RxwmYdDWGOkWh2AuGe4mRUVbCnc5vrpvUEPsjG2Rz_TwUtDnBSM=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/7SPolJGhwFwG0gHG9gqw_INPbom3_RxwmYdDWGOkWh2AuGe4mRUVbCnc5vrpvUEPsjG2Rz_TwUtDnBSM=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/7SPolJGhwFwG0gHG9gqw_INPbom3_RxwmYdDWGOkWh2AuGe4mRUVbCnc5vrpvUEPsjG2Rz_TwUtDnBSM=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "OK Computer Room",
+  "type": "Album",
+  "playlistId": "OLAK5uy_kDV4ZFcNYNNNse3Ul5tkfL4Nuua7PX1_Y",
+  "duration": null,
+  "year": "2021",
+  "artists": [
+   {
+    "name": "Sam Craighead",
+    "id": "UCHAQhe600XbM5xUXwPBpSRg"
+   }
+  ],
+  "browseId": "MPREb_8TPCQrBrfrE",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/aXOLCX-_NWlJLOpfZGeAAewlQRf3MqYpT6JsNBA3a69_Jrlhx5hM3iNE91oHJBU7DfFr7_nJNECRFXZm=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/aXOLCX-_NWlJLOpfZGeAAewlQRf3MqYpT6JsNBA3a69_Jrlhx5hM3iNE91oHJBU7DfFr7_nJNECRFXZm=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/aXOLCX-_NWlJLOpfZGeAAewlQRf3MqYpT6JsNBA3a69_Jrlhx5hM3iNE91oHJBU7DfFr7_nJNECRFXZm=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/aXOLCX-_NWlJLOpfZGeAAewlQRf3MqYpT6JsNBA3a69_Jrlhx5hM3iNE91oHJBU7DfFr7_nJNECRFXZm=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "In Rainbows",
+  "type": "Album",
+  "playlistId": "OLAK5uy_m59x-hBFsC789l1_qWwFXwH3gjntwy_CA",
+  "duration": null,
+  "year": "2007",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_R6C9lU4QEg2",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/BAl1FqoDaFrpWSSrr95Yjii4fJSeitdRcVt7f-uOVrhxQfmo5ActMNysFErQfI-CiOZR4GH2fePoVQtd=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/BAl1FqoDaFrpWSSrr95Yjii4fJSeitdRcVt7f-uOVrhxQfmo5ActMNysFErQfI-CiOZR4GH2fePoVQtd=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/BAl1FqoDaFrpWSSrr95Yjii4fJSeitdRcVt7f-uOVrhxQfmo5ActMNysFErQfI-CiOZR4GH2fePoVQtd=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/BAl1FqoDaFrpWSSrr95Yjii4fJSeitdRcVt7f-uOVrhxQfmo5ActMNysFErQfI-CiOZR4GH2fePoVQtd=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "OK Computer Says No",
+  "type": "Single",
+  "playlistId": "OLAK5uy_ncrRdbDRxSfVpRDYGwzdJ5czfixCmxM5A",
+  "duration": null,
+  "year": "2026",
+  "artists": [
+   {
+    "name": "Told You So",
+    "id": "UC5Sr3HmLIb_Gx0qhS-QV_BA"
+   }
+  ],
+  "browseId": "MPREb_lXCxA6IDydq",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/--wNHjX3ow0spdnKHmQUeR2q9jpOD53ap4MkdhZ44665s3aZxE7eH0qeyPgmocc5rKicvRDvCkqS9qo=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/--wNHjX3ow0spdnKHmQUeR2q9jpOD53ap4MkdhZ44665s3aZxE7eH0qeyPgmocc5rKicvRDvCkqS9qo=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/--wNHjX3ow0spdnKHmQUeR2q9jpOD53ap4MkdhZ44665s3aZxE7eH0qeyPgmocc5rKicvRDvCkqS9qo=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/--wNHjX3ow0spdnKHmQUeR2q9jpOD53ap4MkdhZ44665s3aZxE7eH0qeyPgmocc5rKicvRDvCkqS9qo=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Not OK Computer",
+  "type": "EP",
+  "playlistId": "OLAK5uy_llWCnT9Wp2SnxJQhPnshovUOczv9vS3uo",
+  "duration": null,
+  "year": "2021",
+  "artists": [
+   {
+    "name": "L. Kane",
+    "id": "UC298JnI2oJexIe5KoLYoyqA"
+   }
+  ],
+  "browseId": "MPREb_mEPrq35S3Ko",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/o9khjdJNqC03Vewb8TszXh2Xjwim6MxLCQuE2zvHEooEEJUzpAq2la7yZ2OOgb5yWD1hZlZ4yuKa2qRu=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/o9khjdJNqC03Vewb8TszXh2Xjwim6MxLCQuE2zvHEooEEJUzpAq2la7yZ2OOgb5yWD1hZlZ4yuKa2qRu=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/o9khjdJNqC03Vewb8TszXh2Xjwim6MxLCQuE2zvHEooEEJUzpAq2la7yZ2OOgb5yWD1hZlZ4yuKa2qRu=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/o9khjdJNqC03Vewb8TszXh2Xjwim6MxLCQuE2zvHEooEEJUzpAq2la7yZ2OOgb5yWD1hZlZ4yuKa2qRu=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Strung Out On OK Computer: VSQ Performs Radiohead",
+  "type": "Album",
+  "playlistId": "OLAK5uy_mYUkKUb46l7BMaQgVJyLlp1lOv4SXearQ",
+  "duration": null,
+  "year": "2001",
+  "artists": [
+   {
+    "name": "Vitamin String Quartet",
+    "id": "UCLEcrRNFiDrhwENdwVI-ZPQ"
+   }
+  ],
+  "browseId": "MPREb_z0aY59bngDl",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/xdGg1oav-lOZpqDwlk2CBWma_8LT0gTcRpG0Ck2aGGL2-bqff7deHZaUulSjt8n7fGjvAuBGOS6dFsXt=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/xdGg1oav-lOZpqDwlk2CBWma_8LT0gTcRpG0Ck2aGGL2-bqff7deHZaUulSjt8n7fGjvAuBGOS6dFsXt=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/xdGg1oav-lOZpqDwlk2CBWma_8LT0gTcRpG0Ck2aGGL2-bqff7deHZaUulSjt8n7fGjvAuBGOS6dFsXt=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/xdGg1oav-lOZpqDwlk2CBWma_8LT0gTcRpG0Ck2aGGL2-bqff7deHZaUulSjt8n7fGjvAuBGOS6dFsXt=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "ok computer - disalign",
+  "type": "Album",
+  "playlistId": "OLAK5uy_lUMvOeCS-Yzps0Mml-8C2phkPqkCNyHtI",
+  "duration": null,
+  "year": "2025",
+  "artists": [
+   {
+    "name": "D1RTY",
+    "id": "UCut7rX-2B9wHkqZKrciFvRQ"
+   }
+  ],
+  "browseId": "MPREb_rCwDdFEHiy1",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/r5RAF1qkcVfPXOQo9gPpRLTiWJW5fent8sBNgx7gCjGt7Oj1npVCWZqa3XAw4v8Q-mdH8NNBO7Fsc4rNDA=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/r5RAF1qkcVfPXOQo9gPpRLTiWJW5fent8sBNgx7gCjGt7Oj1npVCWZqa3XAw4v8Q-mdH8NNBO7Fsc4rNDA=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/r5RAF1qkcVfPXOQo9gPpRLTiWJW5fent8sBNgx7gCjGt7Oj1npVCWZqa3XAw4v8Q-mdH8NNBO7Fsc4rNDA=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/r5RAF1qkcVfPXOQo9gPpRLTiWJW5fent8sBNgx7gCjGt7Oj1npVCWZqa3XAw4v8Q-mdH8NNBO7Fsc4rNDA=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "OK Computer",
+  "type": "Album",
+  "playlistId": "OLAK5uy_kxH39w7sE5gFtvyg8NEs3XZZftlUn8uMo",
+  "duration": null,
+  "year": "2025",
+  "artists": [
+   {
+    "name": "The Doraemons",
+    "id": "UCsa35EBiUdTZFH-wnoGCE8Q"
+   }
+  ],
+  "browseId": "MPREb_umZnpamuYHW",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/1MgDYSWXEmH7Dav6-ghd6pjtfYk6rQSGUicsG7q-O5qhFiJqvA5u08ALjQl0QBWIVFZCZHg4vYcV50s=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/1MgDYSWXEmH7Dav6-ghd6pjtfYk6rQSGUicsG7q-O5qhFiJqvA5u08ALjQl0QBWIVFZCZHg4vYcV50s=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/1MgDYSWXEmH7Dav6-ghd6pjtfYk6rQSGUicsG7q-O5qhFiJqvA5u08ALjQl0QBWIVFZCZHg4vYcV50s=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/1MgDYSWXEmH7Dav6-ghd6pjtfYk6rQSGUicsG7q-O5qhFiJqvA5u08ALjQl0QBWIVFZCZHg4vYcV50s=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "MCP Performs Radiohead: OK Computer (Instrumental Version)",
+  "type": "Album",
+  "playlistId": "OLAK5uy_lHdUhKs8auF7IjIZcXueZxVQKnLa3INm4",
+  "duration": null,
+  "year": "2017",
+  "artists": [
+   {
+    "name": "Molotov Cocktail Piano",
+    "id": "UCzDCc4S0MCZ1-laVvMVQQFQ"
+   }
+  ],
+  "browseId": "MPREb_psE5b0aEdN2",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/6jRTvRL4C9BtvVZYPabv1Eav6mZp91vYAOSYAQvln1oWmwR1rG3oXEHBVyopZy6U15xocxyeGM5FXDfB=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/6jRTvRL4C9BtvVZYPabv1Eav6mZp91vYAOSYAQvln1oWmwR1rG3oXEHBVyopZy6U15xocxyeGM5FXDfB=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/6jRTvRL4C9BtvVZYPabv1Eav6mZp91vYAOSYAQvln1oWmwR1rG3oXEHBVyopZy6U15xocxyeGM5FXDfB=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/6jRTvRL4C9BtvVZYPabv1Eav6mZp91vYAOSYAQvln1oWmwR1rG3oXEHBVyopZy6U15xocxyeGM5FXDfB=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "The Bends",
+  "type": "Album",
+  "playlistId": "OLAK5uy_mjfZt29ZKuw9FnglSH4_LLqWBPIPicLjI",
+  "duration": null,
+  "year": "1995",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_xsmDKhqhQrG",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/TWWT47cHLv3yAugk4h9eOzQ46FHmXc_g-KmBVy2d4sbg_F-Gv6xrPglztRVzp8D_l-yzOnvh-QToM8s=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/TWWT47cHLv3yAugk4h9eOzQ46FHmXc_g-KmBVy2d4sbg_F-Gv6xrPglztRVzp8D_l-yzOnvh-QToM8s=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/TWWT47cHLv3yAugk4h9eOzQ46FHmXc_g-KmBVy2d4sbg_F-Gv6xrPglztRVzp8D_l-yzOnvh-QToM8s=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/TWWT47cHLv3yAugk4h9eOzQ46FHmXc_g-KmBVy2d4sbg_F-Gv6xrPglztRVzp8D_l-yzOnvh-QToM8s=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "TKOL RMX 1234567",
+  "type": "Album",
+  "playlistId": "OLAK5uy_mpP0BwIgxqdY3byyQDaoBMfkS6XjWabfM",
+  "duration": null,
+  "year": "2011",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_0lUBE22oiip",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/dBvlIE6omwLQTzS9ZZcdLTvkvOtxitcoc9bSm1ortenr4hErNFcjnLxKIbNyhXDrd_NWVIQbEZ0HpD8-=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/dBvlIE6omwLQTzS9ZZcdLTvkvOtxitcoc9bSm1ortenr4hErNFcjnLxKIbNyhXDrd_NWVIQbEZ0HpD8-=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/dBvlIE6omwLQTzS9ZZcdLTvkvOtxitcoc9bSm1ortenr4hErNFcjnLxKIbNyhXDrd_NWVIQbEZ0HpD8-=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/dBvlIE6omwLQTzS9ZZcdLTvkvOtxitcoc9bSm1ortenr4hErNFcjnLxKIbNyhXDrd_NWVIQbEZ0HpD8-=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Purpose & Plan",
+  "type": "Album",
+  "playlistId": "OLAK5uy_kqY3H1lrw56wh84p7LWhnper-TFXeDixU",
+  "duration": null,
+  "year": "2026",
+  "artists": [
+   {
+    "name": "Ok Computer",
+    "id": "UCRdpHO4JrAG-MUmknc06INw"
+   }
+  ],
+  "browseId": "MPREb_pAOapDmyI2l",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/HRrXkEp8PZCwESAFgQLXgv2vX5dDmT--MwulkDfRZ7DcOqDYMIq0vOF2n73Cp9xDq_6QCLcEqu1orENd=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/HRrXkEp8PZCwESAFgQLXgv2vX5dDmT--MwulkDfRZ7DcOqDYMIq0vOF2n73Cp9xDq_6QCLcEqu1orENd=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/HRrXkEp8PZCwESAFgQLXgv2vX5dDmT--MwulkDfRZ7DcOqDYMIq0vOF2n73Cp9xDq_6QCLcEqu1orENd=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/HRrXkEp8PZCwESAFgQLXgv2vX5dDmT--MwulkDfRZ7DcOqDYMIq0vOF2n73Cp9xDq_6QCLcEqu1orENd=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "A Moon Shaped Pool",
+  "type": "Album",
+  "playlistId": "OLAK5uy_l2JdqQ9q-aHSQmRiz3NfIkU2kkbxd1-ps",
+  "duration": null,
+  "year": "2016",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_zwdwliUWiJm",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/zhUubAG27CeM7pofkoJFJwyWsN0mqrTYeQ7NkWH0YLKan8gykddpDzxRu8ih-vGwACPGgLx4Bu6qwBIS=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/zhUubAG27CeM7pofkoJFJwyWsN0mqrTYeQ7NkWH0YLKan8gykddpDzxRu8ih-vGwACPGgLx4Bu6qwBIS=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/zhUubAG27CeM7pofkoJFJwyWsN0mqrTYeQ7NkWH0YLKan8gykddpDzxRu8ih-vGwACPGgLx4Bu6qwBIS=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/zhUubAG27CeM7pofkoJFJwyWsN0mqrTYeQ7NkWH0YLKan8gykddpDzxRu8ih-vGwACPGgLx4Bu6qwBIS=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Alien Cake SLOWED + REVERB, Vol. 2",
+  "type": "Album",
+  "playlistId": "OLAK5uy_kT26JTGM0PtiP4wrq6aMKp8wDX2TptTGs",
+  "duration": null,
+  "year": "2024",
+  "artists": [
+   {
+    "name": "Various Artists",
+    "id": null
+   }
+  ],
+  "browseId": "MPREb_2UH4jGaqtU7",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/vrl6w2TpJHLBqKhU6hQfCUSRHW3cICesdkVh9tpKZWsQPYRtuVnsZKveXMcwuspvxykUXbnIyPWMnZfw=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/vrl6w2TpJHLBqKhU6hQfCUSRHW3cICesdkVh9tpKZWsQPYRtuVnsZKveXMcwuspvxykUXbnIyPWMnZfw=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/vrl6w2TpJHLBqKhU6hQfCUSRHW3cICesdkVh9tpKZWsQPYRtuVnsZKveXMcwuspvxykUXbnIyPWMnZfw=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/vrl6w2TpJHLBqKhU6hQfCUSRHW3cICesdkVh9tpKZWsQPYRtuVnsZKveXMcwuspvxykUXbnIyPWMnZfw=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "GNX",
+  "type": "Album",
+  "playlistId": "OLAK5uy_lONzr2WDx7bOXJWJNC1YloDy76sCBUHyw",
+  "duration": null,
+  "year": "2024",
+  "artists": [
+   {
+    "name": "Kendrick Lamar",
+    "id": "UCprAFmT0C6O4X0ToEXpeFTQ"
+   }
+  ],
+  "browseId": "MPREb_wCND3crJyDP",
+  "isExplicit": true,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/nUcE0cU6y5BsIa_fpzqSMSc4qCpHoLxeWb6Co2xfMQOLO3ZTctzNopp8d35VyCPSWb0Z1I_1bxTTyyo=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/nUcE0cU6y5BsIa_fpzqSMSc4qCpHoLxeWb6Co2xfMQOLO3ZTctzNopp8d35VyCPSWb0Z1I_1bxTTyyo=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/nUcE0cU6y5BsIa_fpzqSMSc4qCpHoLxeWb6Co2xfMQOLO3ZTctzNopp8d35VyCPSWb0Z1I_1bxTTyyo=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/nUcE0cU6y5BsIa_fpzqSMSc4qCpHoLxeWb6Co2xfMQOLO3ZTctzNopp8d35VyCPSWb0Z1I_1bxTTyyo=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "The King Of Limbs",
+  "type": "Album",
+  "playlistId": "OLAK5uy_kkxS8q1obnji_VjkWtpgWgpZAzAePSSA0",
+  "duration": null,
+  "year": "2011",
+  "artists": [
+   {
+    "name": "Radiohead",
+    "id": "UCr_iyUANcn9OX_yy9piYoLw"
+   }
+  ],
+  "browseId": "MPREb_0MasdQ0OscT",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/mdFzWlwK2T-W-ZVZKiLYXiAm0gG8tIyzY9vmb3c1-SjQKBnPcp9tmiAQoMa0lB8TUMrAHje3NhvM5PNc=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/mdFzWlwK2T-W-ZVZKiLYXiAm0gG8tIyzY9vmb3c1-SjQKBnPcp9tmiAQoMa0lB8TUMrAHje3NhvM5PNc=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/mdFzWlwK2T-W-ZVZKiLYXiAm0gG8tIyzY9vmb3c1-SjQKBnPcp9tmiAQoMa0lB8TUMrAHje3NhvM5PNc=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/mdFzWlwK2T-W-ZVZKiLYXiAm0gG8tIyzY9vmb3c1-SjQKBnPcp9tmiAQoMa0lB8TUMrAHje3NhvM5PNc=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "MF Computer (Radiohead's OK Computer Reimagined)",
+  "type": "Album",
+  "playlistId": "OLAK5uy_k9VkRikoXUAgsGgLQ0PXx3NMKBF52jn4M",
+  "duration": null,
+  "year": "2014",
+  "artists": [
+   {
+    "name": "Mother Falcon",
+    "id": "UCUrtA9t2pnoBdN_j720r1tQ"
+   }
+  ],
+  "browseId": "MPREb_v95fmgKeSOA",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/WHvvNi7nkPFk4HQRBLJ2DB8b0nzHek6FhhT4cI4HFDss5HBInCZ71K-yKp-0Sbpt6DzfdgDys2OGbw=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/WHvvNi7nkPFk4HQRBLJ2DB8b0nzHek6FhhT4cI4HFDss5HBInCZ71K-yKp-0Sbpt6DzfdgDys2OGbw=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/WHvvNi7nkPFk4HQRBLJ2DB8b0nzHek6FhhT4cI4HFDss5HBInCZ71K-yKp-0Sbpt6DzfdgDys2OGbw=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/WHvvNi7nkPFk4HQRBLJ2DB8b0nzHek6FhhT4cI4HFDss5HBInCZ71K-yKp-0Sbpt6DzfdgDys2OGbw=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ },
+ {
+  "category": "Albums",
+  "resultType": "album",
+  "title": "Radiodread",
+  "type": "Album",
+  "playlistId": "OLAK5uy_nE6z01MRU8Igf3e3r_lpOG_suVyCxvsyA",
+  "duration": null,
+  "year": "2006",
+  "artists": [
+   {
+    "name": "Easy Star All-Stars",
+    "id": "UCGvwVJdBGA3ui2pXEfzufZw"
+   }
+  ],
+  "browseId": "MPREb_ziDmmOXpCB1",
+  "isExplicit": false,
+  "thumbnails": [
+   {
+    "url": "https://yt3.googleusercontent.com/OkeiDXT6vzryf_wF9U11P9svqMHMRAaQLg74pQPtLyrFg9j0_wR1eJiwP5iONL7aVOYGPCuSiUGriIs=w60-h60-l90-rj",
+    "width": 60,
+    "height": 60
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/OkeiDXT6vzryf_wF9U11P9svqMHMRAaQLg74pQPtLyrFg9j0_wR1eJiwP5iONL7aVOYGPCuSiUGriIs=w120-h120-l90-rj",
+    "width": 120,
+    "height": 120
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/OkeiDXT6vzryf_wF9U11P9svqMHMRAaQLg74pQPtLyrFg9j0_wR1eJiwP5iONL7aVOYGPCuSiUGriIs=w226-h226-l90-rj",
+    "width": 226,
+    "height": 226
+   },
+   {
+    "url": "https://yt3.googleusercontent.com/OkeiDXT6vzryf_wF9U11P9svqMHMRAaQLg74pQPtLyrFg9j0_wR1eJiwP5iONL7aVOYGPCuSiUGriIs=w544-h544-l90-rj",
+    "width": 544,
+    "height": 544
+   }
+  ]
+ }
+]

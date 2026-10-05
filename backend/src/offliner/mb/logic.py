@@ -238,3 +238,7 @@ def summarize_recording_hit(r: dict[str, Any]) -> dict[str, Any]:
             "date": best.get("date"),
         } if best else None,
     }
+
+
+def normalize_title(s: str | None) -> str:
+    return " ".join("".join(ch.lower() if ch.isalnum() else " " for ch in (s or "")).split())

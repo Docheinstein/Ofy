@@ -24,3 +24,16 @@ def tmp_db(tmp_path, monkeypatch):
     db.set_engine(engine)
     yield engine
     db._engine = None
+
+
+@pytest.fixture(autouse=True)
+def _reset_singletons():
+    """Async clients/limiters bind to an event loop; give every test fresh ones."""
+    from offliner.match import ytm
+    from offliner.mb import client
+
+    client._client = None
+    ytm._service = None
+    yield
+    client._client = None
+    ytm._service = None
