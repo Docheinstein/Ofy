@@ -11,3 +11,4 @@ backend/data/
 backend/library/
 .idea/
 *.egg-info/
+.shots/

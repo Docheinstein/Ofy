@@ -11,6 +11,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse
 
 from offliner import __version__
+from offliner.api import browse as browse_api
 from offliner.api import settings as settings_api
 from offliner.config import env
 from offliner.db import get_engine, recover_interrupted_jobs
@@ -35,6 +36,7 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     app = FastAPI(title="Offliner", version=__version__, lifespan=lifespan)
     app.include_router(settings_api.router)
+    app.include_router(browse_api.router)
 
     @app.get("/api/health")
     def health() -> dict:

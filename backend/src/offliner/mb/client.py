@@ -94,7 +94,7 @@ class MusicBrainzClient:
         offset = 0
         while True:
             data = await self.get(
-                "release-group", {"artist": artist_mbid, "limit": 100, "offset": offset}, ttl=3 * DAY
+                "release-group", {"artist": artist_mbid, "inc": "artist-credits", "limit": 100, "offset": offset}, ttl=3 * DAY
             )
             groups = data.get("release-groups", [])
             out.extend(groups)
