@@ -22,9 +22,10 @@ TEMPLATE_FIELDS = {
     "label", "albumartistsort", "artistsort",
 }
 
-DEFAULT_TEMPLATE = "{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}"
+DEFAULT_TEMPLATE = "{albumartist}/{album}/{artist} - {title}.{ext}"
 # Former defaults: a stored template equal to one of these is upgraded to DEFAULT_TEMPLATE.
 LEGACY_DEFAULT_TEMPLATES = (
+    "{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}",
     "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}",
 )
 

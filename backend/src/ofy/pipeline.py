@@ -202,14 +202,15 @@ def library_destination(settings: Settings, model: TagModel, ext: str, track_id:
     root = Path(settings.library_path).expanduser()
     rel = render_template(settings.path_template, model.path_values(ext))
     dest = root / rel
-    # Avoid clobbering a different track that renders to the same path.
+    # Two tracks can render to the same name (e.g. the same song twice on a release, now that the
+    # default name has no track number): never clobber another track, disambiguate with disc-track.
     if dest.exists():
         try:
             ids = writers.read_mbids(dest)
         except Exception:
             ids = None
         if ids and ids.get("track_id") and ids["track_id"] != track_id:
-            dest = dest.with_name(f"{dest.stem} ({track_id[:8]}){dest.suffix}")
+            dest = dest.with_name(f"{dest.stem} ({model.discnumber}-{model.tracknumber:02d}){dest.suffix}")
     return dest
 
 

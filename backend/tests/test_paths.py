@@ -15,11 +15,12 @@ VALUES = {
 
 
 def test_default_template():
-    assert str(render_template(DEFAULT_TEMPLATE, VALUES)) == "Radiohead/OK Computer/1-01 - Airbag.mp3"
+    assert str(render_template(DEFAULT_TEMPLATE, VALUES)) == "Radiohead/OK Computer/Radiohead - Airbag.mp3"
 
 
 def test_multi_disc():
-    p = render_template(DEFAULT_TEMPLATE, {**VALUES, "disc": 2, "disctotal": 2, "track": 7})
+    p = render_template("{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}",
+                        {**VALUES, "disc": 2, "disctotal": 2, "track": 7})
     assert p.name == "2-07 - Airbag.mp3"
 
 
@@ -77,8 +78,15 @@ def test_numeric_format_on_string_value():
 
 
 def test_album_folder_has_no_year():
-    p = render_template(DEFAULT_TEMPLATE, {**VALUES, "albumartist": "Pink Floyd", "album": "Meddle", "year": "1971"})
-    assert p.parts[:2] == ("Pink Floyd", "Meddle")
+    p = render_template(DEFAULT_TEMPLATE, {**VALUES, "albumartist": "Pink Floyd", "artist": "Pink Floyd",
+                                           "album": "Meddle", "title": "Echoes", "year": "1971"})
+    assert str(p) == "Pink Floyd/Meddle/Pink Floyd - Echoes.mp3"
+
+
+def test_track_artist_credit_in_file_name():
+    p = render_template(DEFAULT_TEMPLATE, {**VALUES, "albumartist": "Daft Punk", "album": "Discovery",
+                                           "artist": "Daft Punk feat. Romanthony", "title": "One More Time"})
+    assert p.name == "Daft Punk feat. Romanthony - One More Time.mp3"
 
 
 def test_old_default_template_is_upgraded():

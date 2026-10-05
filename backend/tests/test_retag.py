@@ -74,3 +74,22 @@ async def test_retag_without_youtube(tmp_db, tmp_path, fixture, monkeypatch):
     assert fields["title"] == ["Airbag"]
     assert fields["youtube_video_id"] == ["jNY_wLukVW0"]
     assert audio_md5(dest) == before
+
+
+def test_same_name_gets_disc_track_suffix(tmp_path, fixture):
+    release = fixture("release_ok_computer.json")
+    t1, t2 = release["media"][0]["tracks"][:2]
+    settings = Settings(library_path=str(tmp_path))
+    m1 = build_tag_model(release, t1["id"])
+    m2 = build_tag_model(release, t2["id"])
+    m2.title = m1.title  # same artist + title -> same default file name
+    first = pipeline.library_destination(settings, m1, "mp3", t1["id"])
+    first.parent.mkdir(parents=True)
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-f", "lavfi", "-i", "sine=duration=1", "-c:a", "libmp3lame",
+                    str(first)], check=True)
+    writers.write_tags(first, m1, None)
+    assert first.name == "Radiohead - Airbag.mp3"
+    second = pipeline.library_destination(settings, m2, "mp3", t2["id"])
+    assert second.name == "Radiohead - Airbag (1-02).mp3"
+    # the track that owns the file keeps its name
+    assert pipeline.library_destination(settings, m1, "mp3", t1["id"]) == first

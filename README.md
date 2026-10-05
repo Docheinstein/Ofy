@@ -137,7 +137,7 @@ Settings page (persisted in the DB, editable at runtime):
 | Setting | Default | Notes |
 |---|---|---|
 | Library path | `OFY_LIBRARY_DIR` | Root folder for downloads |
-| Path template | `{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}` | See below |
+| Path template | `{albumartist}/{album}/{artist} - {title}.{ext}` | See below |
 | Output format | `mp3` | `mp3` (re-encode), `m4a` (copy when the source is AAC), `opus` (copy) |
 | MP3 quality | `320` | `320` kbps CBR or `v0` VBR |
 | Concurrent downloads | `2` | Size of the download worker pool |
@@ -153,8 +153,11 @@ work (`{track:02}`). `{year}` is the release group's original year (stable acros
 component is sanitized: characters illegal on Windows/macOS/Linux (`<>:"/\|?*` and control characters)
 become `_`, leading/trailing dots and spaces are removed, Windows reserved names (`CON`, `NUL`, …) get a
 suffix, and each component is limited to 180 bytes (the extension is preserved). Values can never create
-extra directories (`AC/DC` → `AC_DC`). Multi-disc releases are covered by `{disc}` (the default template
-produces `1-01 …`, `2-01 …`).
+extra directories (`AC/DC` → `AC_DC`). The default produces e.g. `Pink Floyd/Meddle/Pink Floyd - Echoes.mp3`
+(and `Pink Floyd - Echoes.lrc` next to it); `{artist}` is the track's artist credit. If two tracks of a
+release render to the same name (the same song twice, or on several discs) the later one gets a
+` (disc-track)` suffix instead of overwriting. Add `{disc}-{track:02} - ` to the template if you prefer
+numbered files.
 
 ## How it works
 
