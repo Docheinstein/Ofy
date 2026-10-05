@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+/data/
+/music/
+/library/
+backend/data/
+backend/library/
+.idea/
+*.egg-info/
