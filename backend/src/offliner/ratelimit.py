@@ -28,11 +28,20 @@ class RateLimiter:
         self.jitter = jitter
         self._clock = clock
         self._sleep = sleep
-        self._lock = asyncio.Lock()
+        self._lock: asyncio.Lock | None = None
+        self._lock_loop: asyncio.AbstractEventLoop | None = None
         self._last: float | None = None
 
+    def _get_lock(self) -> asyncio.Lock:
+        # asyncio.Lock binds to one event loop; module-level limiters may outlive a loop (tests, CLI).
+        loop = asyncio.get_running_loop()
+        if self._lock is None or self._lock_loop is not loop:
+            self._lock = asyncio.Lock()
+            self._lock_loop = loop
+        return self._lock
+
     async def acquire(self) -> None:
-        async with self._lock:
+        async with self._get_lock():
             now = self._clock()
             if self._last is not None:
                 wait = self._last + self.interval - now
