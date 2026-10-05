@@ -137,7 +137,7 @@ Settings page (persisted in the DB, editable at runtime):
 | Setting | Default | Notes |
 |---|---|---|
 | Library path | `OFY_LIBRARY_DIR` | Root folder for downloads |
-| Path template | `{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}` | See below |
+| Path template | `{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}` | See below |
 | Output format | `mp3` | `mp3` (re-encode), `m4a` (copy when the source is AAC), `opus` (copy) |
 | MP3 quality | `320` | `320` kbps CBR or `v0` VBR |
 | Concurrent downloads | `2` | Size of the download worker pool |

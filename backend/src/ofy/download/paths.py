@@ -22,7 +22,11 @@ TEMPLATE_FIELDS = {
     "label", "albumartistsort", "artistsort",
 }
 
-DEFAULT_TEMPLATE = "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}"
+DEFAULT_TEMPLATE = "{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}"
+# Former defaults: a stored template equal to one of these is upgraded to DEFAULT_TEMPLATE.
+LEGACY_DEFAULT_TEMPLATES = (
+    "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}",
+)
 
 SAMPLE_VALUES: dict[str, Any] = {
     "albumartist": "Artist", "artist": "Artist", "album": "Album", "title": "Title", "year": "2000",

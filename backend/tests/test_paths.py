@@ -15,7 +15,7 @@ VALUES = {
 
 
 def test_default_template():
-    assert str(render_template(DEFAULT_TEMPLATE, VALUES)) == "Radiohead/1997 - OK Computer/1-01 - Airbag.mp3"
+    assert str(render_template(DEFAULT_TEMPLATE, VALUES)) == "Radiohead/OK Computer/1-01 - Airbag.mp3"
 
 
 def test_multi_disc():
@@ -74,3 +74,18 @@ def test_validate_template():
 def test_numeric_format_on_string_value():
     p = render_template("{track:02} {title}.{ext}", {**VALUES, "track": "3"})
     assert str(p) == "03 Airbag.mp3"
+
+
+def test_album_folder_has_no_year():
+    p = render_template(DEFAULT_TEMPLATE, {**VALUES, "albumartist": "Pink Floyd", "album": "Meddle", "year": "1971"})
+    assert p.parts[:2] == ("Pink Floyd", "Meddle")
+
+
+def test_old_default_template_is_upgraded():
+    from ofy.config import Settings
+    from ofy.download.paths import LEGACY_DEFAULT_TEMPLATES
+
+    for old in LEGACY_DEFAULT_TEMPLATES:
+        assert Settings(path_template=old).path_template == DEFAULT_TEMPLATE
+    custom = "{artist}/{year} {album}/{title}.{ext}"
+    assert Settings(path_template=custom).path_template == custom

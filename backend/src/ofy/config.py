@@ -9,9 +9,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from ofy import __version__
+from ofy.download.paths import DEFAULT_TEMPLATE, LEGACY_DEFAULT_TEMPLATES
 
 # MusicBrainz asks for "App/version ( contact )"; the contact comes from OFY_CONTACT when set.
 USER_AGENT = f"Ofy/{__version__}"
@@ -111,7 +112,7 @@ class Settings(BaseModel):
     library_path: str = Field(default_factory=lambda: str(env.default_library))
     output_format: Literal["mp3", "m4a", "opus"] = "mp3"
     mp3_quality: Literal["320", "v0"] = "320"
-    path_template: str = "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}"  # see download.paths
+    path_template: str = DEFAULT_TEMPLATE
     concurrency: int = Field(default=2, ge=1, le=8)
     match_threshold: float = Field(default=0.7, ge=0.0, le=1.0)
     lyrics_fetch: bool = True
@@ -120,3 +121,9 @@ class Settings(BaseModel):
     lrclib_url: str = "https://lrclib.net"
     cookies_path: str = ""
     max_retries: int = Field(default=3, ge=0, le=10)
+
+    @field_validator("path_template")
+    @classmethod
+    def _upgrade_old_default(cls, v: str) -> str:
+        # Users who never customized the template follow the current default.
+        return DEFAULT_TEMPLATE if v in LEGACY_DEFAULT_TEMPLATES else v

@@ -38,7 +38,7 @@ FUNCTIONAL REQUIREMENTS
    - yt-dlp bestaudio → ffmpeg. Output format configurable: mp3 (DEFAULT, 320 kbps CBR or V0,
      configurable), m4a (no re-encode when source is AAC), opus (no re-encode).
    - Save under a configurable library root using a configurable path template, default
-     "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}", sanitizing names
+     "{albumartist}/{album}/{disc}-{track:02} - {title}.{ext}", sanitizing names
      (illegal chars, trailing dots/spaces, max length) and handling multi-disc releases.
    - Write to a temp file, tag, then atomically move into the library.
    - Live progress pushed to the UI via WebSocket (stages: matching, downloading, converting,
