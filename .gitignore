@@ -5,7 +5,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 /data/
-/music/
 /library/
 backend/data/
 backend/library/

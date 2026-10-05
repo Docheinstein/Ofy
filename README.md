@@ -20,24 +20,53 @@ Search ─▶ Artist ─▶ Album (pick edition) ─▶ Download
 
 ---
 
-## Quick start (Docker)
+## Quick start (desktop app)
 
 ```bash
-docker compose up --build        # UI on http://localhost:8080
+cd frontend && npm install && npm run build && cd ..   # build the UI once
+cd backend && uv sync
+uv run offliner-desktop                                # opens the Offliner window
+uv run offliner-desktop --install-shortcut             # optional: add it to your app menu
 ```
 
-* Music is written to `./music` (override with `MUSIC_DIR=/path/to/music docker compose up`).
-* App state (SQLite DB, MusicBrainz/YT caches, cover cache, temp files) lives in `./data`.
+`offliner-desktop` starts the backend in a background thread (listening on `127.0.0.1` only) and shows
+the UI in a native window via [pywebview](https://pywebview.flowrl.com/). Closing the window stops the
+backend. If a backend for the same data directory is already running (another window, or the web server
+below) the window attaches to it instead of starting a second job queue on the same database.
+
+* Music goes to `~/Music/Offliner` by default (change it in Settings).
+* App state (SQLite DB, MusicBrainz/YT caches, cover cache, temp files) lives in
+  `~/.local/share/offliner` (`$XDG_DATA_HOME/offliner`).
 * Set `OFFLINER_CONTACT=you@example.com` so the MusicBrainz/LRCLIB User-Agent carries a contact, as
   MusicBrainz asks.
 
-The image contains ffmpeg and [Deno](https://deno.com), which yt-dlp uses as JavaScript runtime to solve
-YouTube's player challenges.
+**Webview backends.** On Linux the window uses GTK + WebKitGTK. PyGObject has no pip wheels, so the
+launcher reuses the distro's bindings (only `gi`/`cairo` are linked into the virtualenv):
+
+```bash
+sudo apt install python3-gi gir1.2-webkit2-4.1 gstreamer1.0-libav gstreamer1.0-plugins-good   # Debian/Ubuntu
+```
+
+`gstreamer1.0-libav` provides AAC/MP3 decoding for the player. Without GTK, use the Qt backend instead:
+`uv sync --extra qt && uv run offliner-desktop --gui qt`. macOS (WebKit) and Windows (Edge WebView2)
+need nothing extra.
+
+`uv run offliner-desktop --selftest [--play /api/stream/<recording-mbid>]` opens the window, checks
+that the UI renders and which audio codecs the webview supports, optionally plays a stream, prints a
+JSON report and exits; use it to diagnose a machine.
+
+### Web server mode
+
+The same app also runs as a plain web server (e.g. on a home server, used from any browser):
+
+```bash
+cd backend && uv run python -m offliner       # UI on http://localhost:8080
+```
 
 ## Local development
 
 Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node 18+, ffmpeg (and ideally `deno` or Node ≥ 20 on
-`PATH` for yt-dlp).
+`PATH` for yt-dlp, see [Updating yt-dlp](#updating-yt-dlp)).
 
 ```bash
 # backend (API on :8080; serves frontend/dist if built)
@@ -87,11 +116,11 @@ Environment variables (bootstrap, read at start):
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `OFFLINER_DATA_DIR` | `./data` (`/data` in Docker) | SQLite DB, caches, temp files |
-| `OFFLINER_LIBRARY_DIR` | `./library` (`/music` in Docker) | Default library root |
-| `OFFLINER_PORT` / `OFFLINER_HOST` | `8080` / `0.0.0.0` | HTTP listen address |
+| `OFFLINER_DATA_DIR` | `~/.local/share/offliner` | SQLite DB, caches, temp files |
+| `OFFLINER_LIBRARY_DIR` | `~/Music/Offliner` | Default library root |
+| `OFFLINER_PORT` / `OFFLINER_HOST` | `8080` / `0.0.0.0` (desktop: `127.0.0.1`) | HTTP listen address; the desktop app falls back to a free port if 8080 is taken |
 | `OFFLINER_CONTACT` | empty | Contact (email/URL) appended to the User-Agent |
-| `OFFLINER_STATIC_DIR` | `../frontend/dist` | Built frontend to serve |
+| `OFFLINER_STATIC_DIR` | `<repo>/frontend/dist` | Built frontend to serve |
 | `OFFLINER_MUSICBRAINZ_URL` | `https://musicbrainz.org/ws/2` | MusicBrainz WS/2 base (e.g. a mirror) |
 | `OFFLINER_SCAN_ON_STARTUP` | `1` | Reconcile DB with disk at startup |
 
@@ -260,22 +289,16 @@ YouTube changes frequently; when downloads start failing (403s, "Sign in to conf
 update yt-dlp first:
 
 ```bash
-# Docker: rebuild with the newest yt-dlp
-cd backend && uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && cd ..
-docker compose build --pull && docker compose up -d
-
-# Quick hot-fix inside a running container (lost when the container is recreated)
-docker compose exec offliner uv pip install --python /app/backend/.venv/bin/python -U "yt-dlp[default]"
-docker compose restart offliner
-
-# Local development
-cd backend && uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && uv sync
+cd backend
+uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && uv sync
+# then restart Offliner (close and reopen the window, or restart `python -m offliner`)
 ```
 
-`yt-dlp[default]` pulls in `yt-dlp-ejs` (the JS challenge solver scripts); keep a JS runtime (Deno in the
-image; locally `deno` or Node ≥ 20) available. If YouTube requires sign-in for some tracks, export
-cookies from a browser to a `cookies.txt` (Netscape format), mount it into the container and set its path
-in Settings.
+`yt-dlp[default]` pulls in `yt-dlp-ejs` (the JS challenge solver scripts). yt-dlp also needs a JavaScript
+runtime on `PATH` to solve YouTube's player challenges: install [Deno](https://deno.com)
+(`curl -fsSL https://deno.land/install.sh | sh`) or Node ≥ 20. Without one, extraction still works for now
+but some formats may be missing and you may see more HTTP 403s. If YouTube requires sign-in for some
+tracks, export cookies from a browser to a `cookies.txt` (Netscape format) and set its path in Settings.
 
 ## API overview
 

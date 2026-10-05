@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
@@ -18,15 +19,33 @@ def _env(name: str, default: str) -> str:
     return os.environ.get(f"OFFLINER_{name}", default)
 
 
+def default_data_dir() -> Path:
+    """Per-user app data: $XDG_DATA_HOME/offliner (~/.local/share/offliner), %APPDATA%\\Offliner on Windows."""
+    if os.name == "nt" and os.environ.get("APPDATA"):
+        return Path(os.environ["APPDATA"]) / "Offliner"
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support" / "Offliner"
+    return Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share") / "offliner"
+
+
+def default_library_dir() -> Path:
+    return Path.home() / "Music" / "Offliner"
+
+
+def default_static_dir() -> Path:
+    """The built frontend: <repo>/frontend/dist next to backend/src/offliner."""
+    return Path(__file__).resolve().parents[3] / "frontend" / "dist"
+
+
 @dataclass(frozen=True)
 class Env:
     """Process-level configuration read once from environment variables."""
 
-    data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", "./data")).resolve())
-    default_library: Path = field(default_factory=lambda: Path(_env("LIBRARY_DIR", "./library")).resolve())
+    data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", str(default_data_dir()))).expanduser().resolve())
+    default_library: Path = field(default_factory=lambda: Path(_env("LIBRARY_DIR", str(default_library_dir()))).expanduser().resolve())
     host: str = field(default_factory=lambda: _env("HOST", "0.0.0.0"))
     port: int = field(default_factory=lambda: int(_env("PORT", "8080")))
-    static_dir: Path = field(default_factory=lambda: Path(_env("STATIC_DIR", "../frontend/dist")).resolve())
+    static_dir: Path = field(default_factory=lambda: Path(_env("STATIC_DIR", str(default_static_dir()))).expanduser().resolve())
     musicbrainz_url: str = field(default_factory=lambda: _env("MUSICBRAINZ_URL", "https://musicbrainz.org/ws/2"))
     coverart_url: str = field(default_factory=lambda: _env("COVERART_URL", "https://coverartarchive.org"))
     contact: str = field(default_factory=lambda: _env("CONTACT", ""))

@@ -61,7 +61,7 @@ def create_app() -> FastAPI:
 
     @app.get("/api/health")
     def health() -> dict:
-        return {"ok": True, "version": __version__}
+        return {"ok": True, "version": __version__, "data_dir": str(env.data_dir)}
 
     @app.websocket("/api/ws")
     async def ws(websocket: WebSocket) -> None:

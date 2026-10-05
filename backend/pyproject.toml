@@ -10,6 +10,7 @@ dependencies = [
     "fastapi>=0.142.2",
     "httpx>=0.28.1",
     "mutagen>=1.48.1",
+    "pywebview>=6.2.1",
     "rapidfuzz>=3.14.6",
     "sqlmodel>=0.0.47",
     "uvicorn[standard]>=0.54.0",
@@ -19,6 +20,11 @@ dependencies = [
 
 [project.scripts]
 offliner = "offliner:main"
+offliner-desktop = "offliner.desktop:main"
+
+[project.optional-dependencies]
+# Alternative webview backend (bundles Qt WebEngine) for systems without GTK/WebKit bindings
+qt = ["pywebview[qt]"]
 
 [build-system]
 requires = ["uv_build>=0.12.23,<0.13.0"]

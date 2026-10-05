@@ -58,8 +58,8 @@ def base_options(cookies_path: str | None = None) -> dict[str, Any]:
     rt = js_runtimes()
     if rt:
         opts["js_runtimes"] = rt
-    if cookies_path and Path(cookies_path).is_file():
-        opts["cookiefile"] = cookies_path
+    if cookies_path and Path(cookies_path).expanduser().is_file():
+        opts["cookiefile"] = str(Path(cookies_path).expanduser())
     return opts
 
 

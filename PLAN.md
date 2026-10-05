@@ -6,7 +6,9 @@ STACK (do not deviate without asking):
 - Backend: Python 3.12, FastAPI (async), uv for deps, SQLite via SQLModel, httpx, ytmusicapi,
   yt-dlp (as a library, not subprocess), ffmpeg, mutagen, rapidfuzz. pytest for tests.
 - Frontend: React + TypeScript + Vite + Tailwind + shadcn/ui + TanStack Query. Dark Spotify-like theme.
-- Repo layout: backend/, frontend/, docker-compose.yml, README.md.
+- Desktop shell: pywebview (native OS webview window; GTK/WebKit on Linux, optional Qt backend).
+  Docker is NOT a requirement and is not used.
+- Repo layout: backend/, frontend/, README.md.
 
 FUNCTIONAL REQUIREMENTS
 
@@ -97,7 +99,7 @@ FUNCTIONAL REQUIREMENTS
    match threshold, lyrics options, optional cookies.txt path.
 
 WORK PLAN — execute in this order, committing after each phase:
-  0 skeleton + settings + docker
+  0 skeleton + settings
   1 MusicBrainz browsing
   2 matcher (+ CLI: `python -m offliner.match "<artist>" "<album>"` printing matches and scores)
   3 download pipeline (mp3 default)
@@ -106,9 +108,12 @@ WORK PLAN — execute in this order, committing after each phase:
   6 library state + scanner
   7 playback
   8 polish
+  9 desktop app (pywebview launcher, replaces Docker packaging)
 
 DEFINITION OF DONE (verify each yourself before declaring completion):
-- `docker compose up` starts the app; the UI loads at http://localhost:8080.
+- `uv run offliner-desktop` starts the backend and opens the UI in a native desktop window
+  (pywebview); closing the window shuts the backend down. `uv run python -m offliner` still runs
+  the plain web server with the UI at http://localhost:8080.
 - Searching "Radiohead" → artist page → "OK Computer" shows 12 tracks with cover art.
 - The matcher CLI returns the official YT Music album for: Radiohead/OK Computer,
   Daft Punk/Discovery, Adele/25, Nirvana/Nevermind, with ≥ 95% tracks above threshold.
