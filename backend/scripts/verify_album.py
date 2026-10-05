@@ -4,7 +4,7 @@
 
 Reads every audio file with mutagen and asserts that the required tags are present, that all
 MusicBrainz ids equal the source MBIDs, that a front cover is embedded, and (for mp3) that the
-tag is ID3v2.4. Also checks cover.jpg and lyrics sidecars. Exits non-zero on any failure.
+tag is ID3v2.4. Also checks that no cover.jpg is written and reports lyrics sidecars. Exits non-zero on any failure.
 """
 
 from __future__ import annotations
@@ -51,7 +51,7 @@ async def main() -> int:
             errors.append(msg)
 
     check(len(files) == len(rows), f"expected {len(rows)} files, found {len(files)}")
-    check((args.folder / "cover.jpg").is_file(), "cover.jpg missing")
+    check(not (args.folder / "cover.jpg").exists(), "cover.jpg should not be written (cover is embedded)")
     by_track: dict[str, Path] = {}
     for f in files:
         fields = read_fields(f)

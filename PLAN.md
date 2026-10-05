@@ -58,7 +58,7 @@ FUNCTIONAL REQUIREMENTS
      release-group id, artist id(s), album artist id(s), release track id; stored as
      TXXX:"MusicBrainz Album Id" etc. for ID3 and the equivalent keys for MP4/Vorbis.
    - Embedded front cover art (APIC type 3 / covr / METADATA_BLOCK_PICTURE).
-   - Also save cover.jpg once per album folder.
+   - Do NOT save a separate cover.jpg in the album folder (cover is embedded only).
    - Store the YouTube video id in a custom tag (e.g. TXXX:YOUTUBE_VIDEO_ID) for traceability.
    - Retagging: a "Refresh tags" action rewrites tags of already-downloaded files from fresh
      MusicBrainz data without re-downloading audio.
@@ -117,7 +117,7 @@ DEFINITION OF DONE (verify each yourself before declaring completion):
 - Searching "Radiohead" → artist page → "OK Computer" shows 12 tracks with cover art.
 - The matcher CLI returns the official YT Music album for: Radiohead/OK Computer,
   Daft Punk/Discovery, Adele/25, Nirvana/Nevermind, with ≥ 95% tracks above threshold.
-- "Download album" on OK Computer produces a correctly named folder of MP3s plus cover.jpg;
+- "Download album" on OK Computer produces a correctly named folder of MP3s (no cover.jpg);
   a verification script reads every file with mutagen and asserts: ID3v2.4, title/artist/album/
   albumartist/track n/total/disc/date/originaldate/genre/label/ISRC present, all MusicBrainz IDs
   present and equal to the source MBIDs, embedded front cover present.

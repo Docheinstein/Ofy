@@ -187,8 +187,6 @@ async def _download_track(track_id: str, release: dict, settings: Settings, work
     await asyncio.to_thread(atomic_move, tmp_out, dest)
     if old and old != dest:
         remove_with_sidecars(old)
-    if cover:
-        save_folder_cover(dest.parent, cover)
     lyrics_status, lyrics_path = t.lyrics_status, t.lyrics_path
     if lyr is not None:
         lyrics_status, lp = lyrics_service.write_sidecar(dest, lyr, model, settings)
@@ -235,15 +233,6 @@ def remove_with_sidecars(path: Path) -> None:
             p.unlink(missing_ok=True)
         except OSError:
             pass
-
-
-def save_folder_cover(folder: Path, data: bytes) -> None:
-    target = folder / "cover.jpg"
-    if target.exists():
-        return
-    tmp = folder / ".cover.jpg.part"
-    tmp.write_bytes(data)
-    os.replace(tmp, target)
 
 
 def _record_album_folder(release_id: str, folder: Path) -> None:
@@ -308,8 +297,6 @@ async def handle_retag(job: Job) -> None:
                     os.replace(side, dest.with_suffix(e))
                     lyrics_path = str(dest.with_suffix(e))
             _cleanup_empty_dirs(path.parent, Path(settings.library_path))
-        if cover:
-            save_folder_cover(dest.parent, cover)
         update_track(t.track_id, stage=None, file_path=str(dest), lyrics_path=lyrics_path)
 
 
@@ -318,6 +305,7 @@ def _cleanup_empty_dirs(folder: Path, root: Path) -> None:
         root = root.resolve()
         folder = folder.resolve()
         while folder != root and root in folder.parents:
+            # cover.jpg: written by older versions, not worth keeping a folder for
             leftovers = [p for p in folder.iterdir() if p.name != "cover.jpg"]
             if leftovers:
                 return

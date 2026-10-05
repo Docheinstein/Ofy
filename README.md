@@ -195,8 +195,8 @@ produces `1-01 …`, `2-01 …`).
 * Persistent job queue in SQLite (jobs survive restarts; interrupted jobs resume), configurable
   concurrency, retries with exponential backoff + jitter, and a random pause before each download.
 * yt-dlp (`bestaudio`, preferring the codec that can be kept) → ffmpeg → tag → lyrics → **atomic move**
-  (temp file in the destination directory, `fsync`, `rename`). `cover.jpg` is written once per album
-  folder.
+  (temp file in the destination directory, `fsync`, `rename`). The front cover is only embedded in
+  the files (no `cover.jpg` is written).
 * Live progress (`matching → downloading → converting → tagging → lyrics → done`) is pushed over the
   WebSocket at `/api/ws`.
 
