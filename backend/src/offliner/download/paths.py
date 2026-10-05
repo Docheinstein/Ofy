@@ -22,6 +22,8 @@ TEMPLATE_FIELDS = {
     "label", "albumartistsort", "artistsort",
 }
 
+DEFAULT_TEMPLATE = "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}"
+
 SAMPLE_VALUES: dict[str, Any] = {
     "albumartist": "Artist", "artist": "Artist", "album": "Album", "title": "Title", "year": "2000",
     "date": "2000-01-01", "originalyear": "2000", "disc": 1, "disctotal": 1, "track": 1,

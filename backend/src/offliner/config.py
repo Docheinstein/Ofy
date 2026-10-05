@@ -61,7 +61,7 @@ class Settings(BaseModel):
     library_path: str = Field(default_factory=lambda: str(env.default_library))
     output_format: Literal["mp3", "m4a", "opus"] = "mp3"
     mp3_quality: Literal["320", "v0"] = "320"
-    path_template: str = "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}"
+    path_template: str = "{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}"  # see download.paths
     concurrency: int = Field(default=2, ge=1, le=8)
     match_threshold: float = Field(default=0.7, ge=0.0, le=1.0)
     lyrics_fetch: bool = True
