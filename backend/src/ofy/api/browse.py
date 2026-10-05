@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import Response
 from sqlmodel import col, select
 
-from ofy import coverart
+from ofy import artistimage, coverart
 from ofy.db import Album, Track, session
 from ofy.library.status import album_summary
 from ofy.mb import logic
@@ -96,6 +96,7 @@ async def artist(mbid: str) -> dict[str, Any]:
     return {
         **logic.summarize_artist(a),
         "image_release_group": image_rg,
+        "wikidata_id": artistimage.wikidata_id_from_artist(a),
         "discography": disco,
         "related": logic.related_artists(a),
     }
@@ -162,3 +163,19 @@ async def cover(kind: Literal["release", "release-group"], mbid: str,
         return Response(status_code=404, headers={"Cache-Control": "public, max-age=3600"})
     return Response(data, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=604800"})
 
+
+
+@router.get("/artist-image/{mbid}")
+async def artist_image(mbid: str, size: Literal["250", "500", "1200"] = "500",
+                       fallback_rg: str | None = None, wikidata: str | None = None) -> Response:
+    """Artist photo from Wikidata/Commons; falls back to an album cover of the artist if given.
+    ``wikidata`` (the artist's Q-id, when the caller knows it) saves a Wikidata search."""
+    if wikidata and not (wikidata.startswith("Q") and wikidata[1:].isdigit()):
+        wikidata = None
+    data = await artistimage.fetch_artist_image(mbid, size, wikidata)
+    if data is None and fallback_rg:
+        data = await coverart.fetch_front("release-group", fallback_rg, size)
+    if data is None:
+        return Response(status_code=404, headers={"Cache-Control": "public, max-age=3600"})
+    media = "image/png" if data[:8] == b"\x89PNG\r\n\x1a\n" else "image/jpeg"
+    return Response(data, media_type=media, headers={"Cache-Control": "public, max-age=604800"})

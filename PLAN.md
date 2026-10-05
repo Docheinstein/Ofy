@@ -22,6 +22,8 @@ FUNCTIONAL REQUIREMENTS
      inc=recordings+artist-credits+labels+isrcs+genres+release-groups+media so all tag data
      is available in one request.
    - Cover art from Cover Art Archive (front image, prefer 1200px thumbnail).
+   - Artist images: MusicBrainz has none, so use Wikidata/Wikimedia Commons (P18 of the artist's
+     Wikidata item); fall back to one of the artist's album covers.
    - Strict global rate limit of 1 req/s, descriptive User-Agent, SQLite response cache with TTL.
 
 2. Matching (YouTube Music via ytmusicapi):

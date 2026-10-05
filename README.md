@@ -173,6 +173,11 @@ numbered files.
   selected in the album page's edition picker.
 * For tagging, the selected release is fetched once with
   `inc=recordings+artist-credits+labels+isrcs+genres+release-groups+media`.
+* Artist photos come from Wikidata/Wikimedia Commons (MusicBrainz has none): the artist's Wikidata item
+  (MusicBrainz's `wikidata` link, or a lookup by MusicBrainz artist ID, property P434) and its image
+  (P18), as a Commons thumbnail. Without a photo, the artist page uses the cover of the artist's newest
+  album. Lookups are cached (30 days, 7 for "no photo"), throttled to 1 request/s, and on HTTP 429 all
+  Wikimedia requests pause for the server's `Retry-After`.
 * Cover art comes from the Cover Art Archive (`front-1200`, falling back to the original image, then to
   the release group's cover) and is cached on disk.
 
@@ -318,6 +323,7 @@ tracks, export cookies from a browser to a `cookies.txt` (Netscape format) and s
 | `GET /api/search?q=&type=all\|artist\|album\|track` | MusicBrainz search |
 | `GET /api/artist/{id}` · `GET /api/release-group/{id}` · `GET /api/release/{id}` | Browse (+ library state) |
 | `GET /api/cover/{release\|release-group}/{id}?size=250\|500\|1200` | Cached Cover Art Archive images |
+| `GET /api/artist-image/{id}?size=…&fallback_rg=…&wikidata=…` | Artist photo (Wikidata/Commons, album-cover fallback) |
 | `POST /api/release/{id}/download` · `POST /api/release/{id}/tracks/{tid}/download` · `POST /api/recording/{id}/download` | Queue downloads |
 | `GET /api/track/{tid}` · `POST /api/track/{tid}/retry` · `POST /api/track/{tid}/match` · `POST /api/release/{id}/tracks/{tid}/candidates` | Track detail, retry, manual match, candidates |
 | `POST /api/track/{tid}/lyrics` · `POST /api/release/{id}/lyrics` · `POST /api/library/lyrics` | Lyrics refetch / fill missing |

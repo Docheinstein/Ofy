@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowDownCircle, CheckCircle2, Loader2, Play, Search, User } from "lucide-react";
+import { ArrowDownCircle, CheckCircle2, Loader2, Play, Search } from "lucide-react";
 import { api, coverUrl, type SearchResult, type TrackHit } from "@/lib/api";
 import { useDebounced } from "@/lib/hooks";
 import { usePlayer } from "@/lib/player";
@@ -8,6 +8,7 @@ import { formatDuration } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlbumCard } from "@/components/AlbumCard";
+import { ArtistAvatar } from "@/components/ArtistAvatar";
 import { Cover } from "@/components/Cover";
 
 type Kind = "all" | "artist" | "album" | "track";
@@ -70,9 +71,7 @@ export function SearchPage() {
           <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2">
             {data.artists.map((a) => (
               <Link key={a.id} to={`/artist/${a.id}`} className="flex flex-col items-center gap-3 rounded-md p-3 text-center hover:bg-elevated" data-testid="artist-result">
-                <div className="flex aspect-square w-full items-center justify-center rounded-full bg-elevated text-muted-foreground shadow-lg">
-                  <User className="h-1/3 w-1/3" />
-                </div>
+                <ArtistAvatar id={a.id} className="w-full" />
                 <div className="w-full min-w-0">
                   <div className="truncate text-sm font-bold">{a.name}</div>
                   <div className="truncate text-xs text-muted-foreground">

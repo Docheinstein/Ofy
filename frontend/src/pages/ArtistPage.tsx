@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { Loader2, User } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { api, coverUrl, type ArtistDetail } from "@/lib/api";
+import { api, artistImageUrl, type ArtistDetail } from "@/lib/api";
 import { AlbumCard } from "@/components/AlbumCard";
+import { ArtistAvatar } from "@/components/ArtistAvatar";
 import { Button } from "@/components/ui/button";
 
 export function ArtistPage() {
@@ -19,16 +20,13 @@ export function ArtistPage() {
   return (
     <div>
       <header className="relative flex h-72 items-end gap-6 overflow-hidden bg-gradient-to-b from-neutral-600/60 to-surface p-6">
-        {data.image_release_group && (
-          <img src={coverUrl("release-group", data.image_release_group, 1200)} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl" />
-        )}
-        <div className="relative flex h-44 w-44 shrink-0 items-center justify-center overflow-hidden rounded-full bg-elevated shadow-2xl">
-          {data.image_release_group ? (
-            <img src={coverUrl("release-group", data.image_release_group, 500)} className="h-full w-full object-cover" alt="" />
-          ) : (
-            <User className="h-16 w-16 text-muted-foreground" />
-          )}
-        </div>
+        <img
+          src={artistImageUrl(data.id, 500, data.image_release_group ?? undefined, data.wikidata_id ?? undefined)}
+          alt=""
+          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl"
+          onError={(e) => (e.currentTarget.style.display = "none")}
+        />
+        <ArtistAvatar id={data.id} fallbackRg={data.image_release_group} wikidata={data.wikidata_id} size={500} className="relative w-44 shrink-0 shadow-2xl" />
         <div className="relative min-w-0">
           <p className="text-sm font-semibold">{data.type ?? "Artist"}</p>
           <h1 className="truncate text-5xl font-black tracking-tight md:text-7xl" data-testid="artist-name">{data.name}</h1>
@@ -46,7 +44,8 @@ export function ArtistPage() {
             <h2 className="mb-3 text-2xl font-bold">Related artists</h2>
             <div className="flex flex-wrap gap-2">
               {data.related.map((r) => (
-                <Link key={r.id} to={`/artist/${r.id}`} className="rounded-full bg-elevated px-4 py-2 text-sm hover:bg-accent">
+                <Link key={r.id} to={`/artist/${r.id}`} className="flex items-center gap-2 rounded-full bg-elevated py-1 pl-1 pr-4 text-sm hover:bg-accent">
+                  <ArtistAvatar id={r.id} className="w-7 shadow-none" />
                   <span className="font-semibold">{r.name}</span>
                   <span className="ml-2 text-xs text-muted-foreground">{r.relation}</span>
                 </Link>
