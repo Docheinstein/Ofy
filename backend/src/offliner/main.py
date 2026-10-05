@@ -14,6 +14,7 @@ from offliner import __version__
 from offliner.api import actions as actions_api
 from offliner.api import browse as browse_api
 from offliner.api import settings as settings_api
+from offliner.api import stream as stream_api
 from offliner.config import env
 from offliner.db import get_engine, recover_interrupted_jobs
 from offliner.events import hub
@@ -56,6 +57,7 @@ def create_app() -> FastAPI:
     app.include_router(settings_api.router)
     app.include_router(browse_api.router)
     app.include_router(actions_api.router)
+    app.include_router(stream_api.router)
 
     @app.get("/api/health")
     def health() -> dict:

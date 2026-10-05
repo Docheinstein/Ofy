@@ -36,3 +36,11 @@ def cache_purge_expired() -> None:
     with session() as s:
         s.exec(delete(CacheEntry).where(CacheEntry.expires_at < time.time()))  # type: ignore[call-overload]
         s.commit()
+
+
+def cache_delete(key: str) -> None:
+    with session() as s:
+        row = s.get(CacheEntry, key)
+        if row is not None:
+            s.delete(row)
+            s.commit()
