@@ -116,6 +116,14 @@ async def run(base: str, chromium: str, shots: str | None) -> int:
                f"{dict((s, lyrics.count(s)) for s in set(lyrics))}")
             if shots:
                 await p.screenshot(os.path.join(shots, "ui-album.png"))
+            if statuses and statuses[0] == "done":
+                await p.eval("document.querySelector('[data-track-id]').click()")
+                rows = await p.wait("document.querySelectorAll('[role=dialog] table tr').length", 20, "drawer tags")
+                text = await p.eval("document.querySelector('[role=dialog]').innerText")
+                assert "TXXX:MusicBrainz Album Id" in text and "match" in text.lower(), text[:500]
+                ok(f"track drawer shows {rows} written tags and match source/score")
+                if shots:
+                    await p.screenshot(os.path.join(shots, "ui-drawer.png"))
 
             # 4. play a non-downloaded track (Discovery – Digital Love) through the proxy
             await p.send("Page.navigate", url=f"{base}/album/48117b90-a16e-34ca-a514-19c702df1158")
