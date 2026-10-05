@@ -162,8 +162,9 @@ async def _download_track(track_id: str, release: dict, settings: Settings, work
     src_codec = conv.normalize_codec(sources[0].acodec) or conv.probe_codec(sources[0].path)
     ext = conv.EXT[fmt]
     tmp_out = work / f"out.{ext}"
-    await asyncio.to_thread(conv.convert, [s.path for s in sources], tmp_out, fmt,
-                            src_codec=src_codec, mp3_quality=settings.mp3_quality)
+    copied = await asyncio.to_thread(conv.convert, [s.path for s in sources], tmp_out, fmt,
+                                     src_codec=src_codec, mp3_quality=settings.mp3_quality)
+    log.info("%s: %s %s -> %s", t.title, "remuxed" if copied else "encoded", src_codec, fmt)
     # 3. tag
     t = update_track(track_id, stage="tagging")
     model = build_tag_model(release, track_id, youtube_video_id=t.video_id)
