@@ -280,3 +280,13 @@ def library_albums() -> list[dict[str, Any]]:
     out.sort(key=lambda x: (x["artist"].lower(), x["year"] or "", x["title"].lower()))
     return out
 
+
+
+@router.post("/library/rescan")
+async def rescan() -> dict[str, Any]:
+    import asyncio
+
+    from offliner.library.scanner import scan_library
+
+    result = await asyncio.to_thread(scan_library)
+    return {"changed": len(result.changes), "scanned": result.scanned}

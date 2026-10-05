@@ -34,10 +34,21 @@ async def lifespan(app: FastAPI):
     if n:
         log.info("Recovered %d interrupted jobs", n)
     register_handlers()
+    if env.scan_on_startup:
+        app.state.scan_task = asyncio.create_task(_startup_scan())
     if env.start_workers:
         queue.start()
     yield
     await queue.stop()
+
+
+async def _startup_scan() -> None:
+    from offliner.library.scanner import scan_library
+
+    try:
+        await asyncio.to_thread(scan_library)
+    except Exception:
+        log.exception("startup library scan failed")
 
 
 def create_app() -> FastAPI:
