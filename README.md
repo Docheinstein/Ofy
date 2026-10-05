@@ -20,14 +20,30 @@ Search ─▶ Artist ─▶ Album (pick edition) ─▶ Download
 
 ---
 
-## Quick start (desktop app)
+## Quick start
+
+Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node 18+, ffmpeg (and ideally `deno` or
+Node ≥ 20 on `PATH` for yt-dlp, see [Updating yt-dlp](#updating-yt-dlp)).
 
 ```bash
-cd frontend && npm install && npm run build && cd ..   # build the UI once
-cd backend && uv sync
-uv run offliner-desktop                                # opens the Offliner window
-uv run offliner-desktop --install-shortcut             # optional: add it to your app menu
+./build.sh          # install backend + frontend dependencies and build the UI
+./run.sh            # open the desktop app (builds first if anything is missing or out of date)
 ```
+
+| Command | What it does |
+|---|---|
+| `./build.sh` | `uv sync` (backend) + `npm ci` (frontend, skipped when up to date) + `npm run build` |
+| `./build.sh --clean` | Same, after deleting `backend/.venv`, `frontend/node_modules` and `frontend/dist` |
+| `./build.sh --test` | Same, then runs the backend unit tests |
+| `./run.sh` | Desktop app (native window). Extra args go to `offliner-desktop`, e.g. `./run.sh desktop --debug` |
+| `./run.sh web [--port 8080]` | Web server only; UI at http://localhost:8080 |
+| `./run.sh dev` | Backend with auto-reload on :8080 + Vite dev server with hot reload on http://localhost:5173 (proxies `/api`); Ctrl-C stops both |
+
+`run.sh` rebuilds automatically when the virtualenv or `node_modules` is missing or older than its
+lockfile, or (for `desktop`/`web`) when any UI source is newer than `frontend/dist`. To add Offliner to
+your app menu: `cd backend && uv run offliner-desktop --install-shortcut`.
+
+### Desktop app
 
 `offliner-desktop` starts the backend in a background thread (listening on `127.0.0.1` only) and shows
 the UI in a native window via [pywebview](https://pywebview.flowrl.com/). Closing the window stops the
@@ -58,26 +74,16 @@ JSON report and exits; use it to diagnose a machine.
 ### Web server mode
 
 The same app also runs as a plain web server (e.g. on a home server, used from any browser):
+`./run.sh web`, or directly `cd backend && uv run python -m offliner` (UI on http://localhost:8080).
+
+## Development
+
+`./run.sh dev` is the usual loop: edit Python under `backend/src` or TypeScript under `frontend/src` and
+both reload. The individual pieces, if you prefer separate terminals:
 
 ```bash
-cd backend && uv run python -m offliner       # UI on http://localhost:8080
-```
-
-## Local development
-
-Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node 18+, ffmpeg (and ideally `deno` or Node ≥ 20 on
-`PATH` for yt-dlp, see [Updating yt-dlp](#updating-yt-dlp)).
-
-```bash
-# backend (API on :8080; serves frontend/dist if built)
-cd backend
-uv sync
-uv run python -m offliner
-
-# frontend dev server (on :5173, proxies /api to :8080)
-cd frontend
-npm install
-npm run dev          # or: npm run build  → served by the backend at :8080
+cd backend && uv run uvicorn offliner.main:app --port 8080 --reload --reload-dir src
+cd frontend && npm run dev          # http://localhost:5173, proxies /api to :8080
 ```
 
 ### Tests
