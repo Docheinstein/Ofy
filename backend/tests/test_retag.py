@@ -1,0 +1,76 @@
+"""Refresh tags rewrites tags from fresh MusicBrainz data without touching YouTube or the audio."""
+
+import hashlib
+import shutil
+import subprocess
+
+import pytest
+
+from offliner import pipeline
+from offliner.config import Settings
+from offliner.db import Album, Job, Track, save_settings, session
+from offliner.tagging import writers
+from offliner.tagging.model import build_tag_model
+
+pytestmark = pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg required")
+
+
+def audio_md5(path):
+    out = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-map", "0:a", "-c", "copy", "-f", "md5", "-"],
+                         capture_output=True, text=True, check=True)
+    return out.stdout.strip()
+
+
+class FakeMB:
+    def __init__(self, release):
+        self.release_json = release
+        self.calls = []
+
+    async def release(self, mbid, fresh=False):
+        self.calls.append((mbid, fresh))
+        return self.release_json
+
+
+async def test_retag_without_youtube(tmp_db, tmp_path, fixture, monkeypatch):
+    release = fixture("release_ok_computer.json")
+    t0 = release["media"][0]["tracks"][0]
+    lib = tmp_path / "lib"
+    save_settings(Settings(library_path=str(lib)))
+    model = build_tag_model(release, t0["id"], youtube_video_id="jNY_wLukVW0")
+    dest = pipeline.library_destination(Settings(library_path=str(lib)), model, "mp3", t0["id"])
+    dest.parent.mkdir(parents=True)
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-f", "lavfi", "-i", "sine=duration=1", "-c:a", "libmp3lame",
+                    str(dest)], check=True)
+    model.title = "Stale title"
+    writers.write_tags(dest, model, None)
+    before = audio_md5(dest)
+
+    with session() as s:
+        s.add(Album(release_id=release["id"], release_group_id=release["release-group"]["id"], title="x", artist="y",
+                    track_count=12))
+        s.add(Track(track_id=t0["id"], recording_id=t0["recording"]["id"], release_id=release["id"],
+                    release_group_id=release["release-group"]["id"], status="done", file_path=str(dest),
+                    file_format="mp3", video_id="jNY_wLukVW0"))
+        s.commit()
+
+    fake = FakeMB(release)
+    monkeypatch.setattr(pipeline, "get_mb", lambda: fake)
+
+    async def no_cover(*a, **k):
+        return None
+
+    monkeypatch.setattr(pipeline.coverart, "front_for_release", no_cover)
+
+    def boom(*a, **k):
+        raise AssertionError("YouTube must not be contacted during retag")
+
+    monkeypatch.setattr(pipeline, "download_audio", boom)
+    monkeypatch.setattr(pipeline, "match_release", boom)
+
+    await pipeline.handle_retag(Job(kind="retag", release_id=release["id"]))
+
+    assert fake.calls == [(release["id"], True)]  # fresh MusicBrainz data
+    fields = writers.read_fields(dest)
+    assert fields["title"] == ["Airbag"]
+    assert fields["youtube_video_id"] == ["jNY_wLukVW0"]
+    assert audio_md5(dest) == before

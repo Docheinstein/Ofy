@@ -19,12 +19,12 @@ ENV PYTHONUNBUFFERED=1 \
     OFFLINER_PORT=8080
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends ffmpeg ca-certificates curl unzip \
+ && apt-get install -y --no-install-recommends ffmpeg ca-certificates curl \
  && rm -rf /var/lib/apt/lists/*
 
 # Deno is the JavaScript runtime yt-dlp uses to solve YouTube player challenges.
-COPY --from=denoland/deno:bin-2.5.6 /deno /usr/local/bin/deno
-COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /usr/local/bin/uv
+COPY --from=denoland/deno:bin-2.9.7 /deno /usr/local/bin/deno
+COPY --from=ghcr.io/astral-sh/uv:0.12 /uv /usr/local/bin/uv
 
 WORKDIR /app/backend
 COPY backend/pyproject.toml backend/uv.lock ./

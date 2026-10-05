@@ -1,0 +1,294 @@
+# Offliner
+
+A self-hosted, Spotify-style web app for **browsing music via MusicBrainz**, **downloading** songs and
+albums from **YouTube Music**, **tagging** them completely with MusicBrainz metadata (Picard-compatible, so
+Jellyfin / Navidrome / Plex / Picard read them correctly), and fetching **lyrics** from **LRCLIB**.
+
+```
+Search ─▶ Artist ─▶ Album (pick edition) ─▶ Download
+                                         │
+            match on YT Music (album → per-song fallback, confidence 0–1)
+                                         │
+     yt-dlp bestaudio ─▶ ffmpeg (mp3 / m4a / opus) ─▶ tag (ID3v2.4 / MP4 / Vorbis) + cover
+                                         │
+                  LRCLIB lyrics (.lrc / .txt sidecar + embedded) ─▶ atomic move into library
+```
+
+* **Backend**: Python 3.12, FastAPI, SQLModel/SQLite, httpx, ytmusicapi, yt-dlp (as a library), ffmpeg,
+  mutagen, rapidfuzz — managed with `uv`.
+* **Frontend**: React + TypeScript + Vite + Tailwind + shadcn/ui-style components + TanStack Query.
+
+---
+
+## Quick start (Docker)
+
+```bash
+docker compose up --build        # UI on http://localhost:8080
+```
+
+* Music is written to `./music` (override with `MUSIC_DIR=/path/to/music docker compose up`).
+* App state (SQLite DB, MusicBrainz/YT caches, cover cache, temp files) lives in `./data`.
+* Set `OFFLINER_CONTACT=you@example.com` so the MusicBrainz/LRCLIB User-Agent carries a contact, as
+  MusicBrainz asks.
+
+The image contains ffmpeg and [Deno](https://deno.com), which yt-dlp uses as JavaScript runtime to solve
+YouTube's player challenges.
+
+## Local development
+
+Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node 18+, ffmpeg (and ideally `deno` or Node ≥ 20 on
+`PATH` for yt-dlp).
+
+```bash
+# backend (API on :8080; serves frontend/dist if built)
+cd backend
+uv sync
+uv run python -m offliner
+
+# frontend dev server (on :5173, proxies /api to :8080)
+cd frontend
+npm install
+npm run dev          # or: npm run build  → served by the backend at :8080
+```
+
+### Tests
+
+```bash
+cd backend
+uv run pytest                 # unit tests (offline)
+uv run pytest -m network      # live tests against MusicBrainz + YouTube Music
+```
+
+Unit tests cover: match scoring and album/track mapping, path templating & sanitizing, status
+aggregation, the MusicBrainz rate limiter, MusicBrainz → tag-model mapping (recorded JSON fixtures in
+`tests/fixtures`), every tag writer (round-trip on tiny ffmpeg-generated mp3/m4a/opus files), LRCLIB
+result selection, `.lrc` formatting and sidecar handling, the job queue (retry, backoff, persistence,
+concurrency) and "Refresh tags" (asserts no YouTube access and an unchanged audio stream).
+
+### Useful commands
+
+```bash
+# Matcher CLI: prints the chosen YT Music album and per-track matches + scores
+uv run python -m offliner.match "Radiohead" "OK Computer"
+uv run python -m offliner.match "Nirvana" "Nevermind" --threshold 0.8 -v
+
+# Verify a downloaded album folder against MusicBrainz (tags, MBIDs, cover, ID3v2.4, sidecars)
+uv run python scripts/verify_album.py "music/Radiohead/1997 - OK Computer" <release-mbid> --format mp3
+
+# Headless browser smoke test of the UI (needs chromium)
+uv run python scripts/ui_check.py --base http://localhost:8080
+```
+
+---
+
+## Configuration
+
+Environment variables (bootstrap, read at start):
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `OFFLINER_DATA_DIR` | `./data` (`/data` in Docker) | SQLite DB, caches, temp files |
+| `OFFLINER_LIBRARY_DIR` | `./library` (`/music` in Docker) | Default library root |
+| `OFFLINER_PORT` / `OFFLINER_HOST` | `8080` / `0.0.0.0` | HTTP listen address |
+| `OFFLINER_CONTACT` | empty | Contact (email/URL) appended to the User-Agent |
+| `OFFLINER_STATIC_DIR` | `../frontend/dist` | Built frontend to serve |
+| `OFFLINER_MUSICBRAINZ_URL` | `https://musicbrainz.org/ws/2` | MusicBrainz WS/2 base (e.g. a mirror) |
+| `OFFLINER_SCAN_ON_STARTUP` | `1` | Reconcile DB with disk at startup |
+
+Settings page (persisted in the DB, editable at runtime):
+
+| Setting | Default | Notes |
+|---|---|---|
+| Library path | `OFFLINER_LIBRARY_DIR` | Root folder for downloads |
+| Path template | `{albumartist}/{year} - {album}/{disc}-{track:02} - {title}.{ext}` | See below |
+| Output format | `mp3` | `mp3` (re-encode), `m4a` (copy when the source is AAC), `opus` (copy) |
+| MP3 quality | `320` | `320` kbps CBR or `v0` VBR |
+| Concurrent downloads | `2` | Size of the download worker pool |
+| Max retries | `3` | Exponential backoff with jitter between attempts |
+| Match threshold | `0.7` | Below → track becomes **needs review** |
+| Fetch lyrics / Prefer synced / Embed in tags | on / on / on | LRCLIB behaviour |
+| LRCLIB URL | `https://lrclib.net` | Point elsewhere (e.g. self-hosted LRCLIB) |
+| cookies.txt path | empty | Optional Netscape cookies file for yt-dlp (age-restricted content) |
+
+**Path template fields**: `albumartist artist album title year date originalyear disc disctotal track
+tracktotal ext media releasetype catalognumber label albumartistsort artistsort`. Python format specs
+work (`{track:02}`). `{year}` is the release group's original year (stable across reissues). Every path
+component is sanitized: characters illegal on Windows/macOS/Linux (`<>:"/\|?*` and control characters)
+become `_`, leading/trailing dots and spaces are removed, Windows reserved names (`CON`, `NUL`, …) get a
+suffix, and each component is limited to 180 bytes (the extension is preserved). Values can never create
+extra directories (`AC/DC` → `AC_DC`). Multi-disc releases are covered by `{disc}` (the default template
+produces `1-01 …`, `2-01 …`).
+
+## How it works
+
+### MusicBrainz
+
+* WS/2 JSON with a **strict global limit of 1 request/second** (one shared limiter, serialized across
+  all coroutines), a descriptive User-Agent, retries on 503, and an SQLite response cache with TTLs
+  (searches 1 day, entities 3–7 days).
+* Artist pages group release groups into **Album, Single/EP, Compilation, Live** (and Other), plus
+  related artists from artist–artist relationships.
+* The canonical edition of a release group is chosen as **Official > Digital Media/CD > earliest date**
+  (precise dates beat year-only dates; ties prefer worldwide/major-market releases). Any edition can be
+  selected in the album page's edition picker.
+* For tagging, the selected release is fetched once with
+  `inc=recordings+artist-credits+labels+isrcs+genres+release-groups+media`.
+* Cover art comes from the Cover Art Archive (`front-1200`, falling back to the original image, then to
+  the release group's cover) and is cached on disk.
+
+### Matching (YouTube Music)
+
+* **Strategy A (album)**: search `filter="albums"`, score candidates on title / artist / year / track
+  count, fetch the best ones and map tracks one-to-one by **position + title + duration (±5 s)**. Album
+  entries that point at music videos are replaced by their **Art Track** from the album's audio
+  playlist.
+* **Strategy B (per song)**: `filter="songs"`; prefers Art Tracks over videos and penalizes
+  live / remix / cover / sped up / slowed / karaoke / instrumental / acoustic… unless the MusicBrainz
+  title contains the same word.
+* MusicBrainz tracks that combine several songs (e.g. `Something in the Way / Endless, Nameless` with a
+  hidden track) are matched to the consecutive YT tracks and **concatenated** at download time.
+* Every match stores a **0–1 confidence**, its source (`album`, `song`, `manual`) and the top 5
+  candidates. Below the threshold the track is **needs review**: the track drawer lists candidates
+  (with links to listen on YT Music) and "Use this" persists a manual choice that is never overridden
+  by automatic re-matching.
+* All YouTube Music calls go through one throttled client (≈1 request/s with jitter) and are cached.
+
+### Downloading
+
+* Persistent job queue in SQLite (jobs survive restarts; interrupted jobs resume), configurable
+  concurrency, retries with exponential backoff + jitter, and a random pause before each download.
+* yt-dlp (`bestaudio`, preferring the codec that can be kept) → ffmpeg → tag → lyrics → **atomic move**
+  (temp file in the destination directory, `fsync`, `rename`). `cover.jpg` is written once per album
+  folder.
+* Live progress (`matching → downloading → converting → tagging → lyrics → done`) is pushed over the
+  WebSocket at `/api/ws`.
+
+### Library state
+
+* Track status: `none | queued | downloading | done | failed | needs_review`; lyrics status:
+  `none | synced | plain | instrumental | not_found`.
+* Album status is derived: `none | partial | complete` (shown on cards and album headers).
+* The **library scanner** runs at startup and from the Library page's **Rescan** button. It walks the
+  library, reads MusicBrainz ids from tags for unknown files, and reconciles: deleted audio → track back
+  to `none` (album becomes `partial`); moved files are followed; files added outside the app (with MBID
+  tags) are adopted; `.lrc`/`.txt` sidecars added or removed update the lyrics status.
+* **Refresh tags** (album page) re-fetches the release from MusicBrainz (bypassing the cache) and
+  rewrites tags in place — no YouTube access, the audio stream is untouched. If the new metadata
+  renders to a different path, the file and its sidecars are moved.
+
+### Playback
+
+`GET /api/stream/{recording_mbid}` serves the local file with HTTP Range support when downloaded;
+otherwise it matches the recording (album context when `?release=` is given), resolves the audio URL with
+yt-dlp and proxies it through the backend (Range requests forwarded). The bottom player bar has
+play/pause/seek/volume/next/previous, and the lyrics panel highlights the current line of the `.lrc`.
+
+## Lyrics behaviour
+
+1. After tagging, `GET {LRCLIB}/api/get?artist_name=…&track_name=…&album_name=…&duration=…` (duration in
+   seconds, from MusicBrainz).
+2. On 404 (or an empty record), `GET /api/search` and accept the best result whose **duration is within
+   ±2 s** and whose title **and** artist fuzzy-match ≥ 0.8 (synced results preferred).
+3. Result handling:
+   * `syncedLyrics` (and *prefer synced* on) → `<same basename>.lrc` next to the audio, with
+     `[ar:]`, `[al:]`, `[ti:]` and `[length:mm:ss]` headers → status **synced**;
+   * else `plainLyrics` → `<same basename>.txt` → status **plain**;
+   * `instrumental: true` → nothing saved, status **instrumental**;
+   * nothing acceptable → status **not_found**.
+4. With *embed in tags* on, the plain text is embedded (ID3 `USLT`, MP4 `©lyr`, Vorbis `LYRICS`); for
+   synced-only results the timestamps are stripped.
+5. Lyrics are **best effort**: network errors, timeouts or HTTP errors are logged, the track still
+   completes as `done` (status stays `none`), and existing sidecars are never deleted because of an error.
+6. Requests carry the Offliner User-Agent and are throttled (≥ 0.5 s apart).
+7. "Fetch lyrics again" (track drawer) and "Fetch missing lyrics" (album page, Library page) retry
+   tracks whose status is `none` or `not_found`.
+
+## Tag mapping
+
+Follows [Picard's tag mapping](https://picard-docs.musicbrainz.org/en/appendices/tag_mapping.html)
+(verified against Picard's `formats/id3.py`, `mp4.py`, `vorbis.py`). MP4 freeform atoms are
+`----:com.apple.iTunes:<name>`.
+
+| Field (Picard name) | ID3v2.4 (mp3) | MP4 (m4a) | Vorbis (opus) |
+|---|---|---|---|
+| title | `TIT2` | `©nam` | `TITLE` |
+| artist (full credit) | `TPE1` | `©ART` | `ARTIST` |
+| artists (multi) | `TXXX:ARTISTS` | `ARTISTS` | `ARTISTS` |
+| album | `TALB` | `©alb` | `ALBUM` |
+| albumartist | `TPE2` | `aART` | `ALBUMARTIST` |
+| albumartists (multi) | `TXXX:ALBUMARTISTS` | `ALBUMARTISTS` | `ALBUMARTISTS` |
+| artistsort | `TSOP` | `soar` | `ARTISTSORT` |
+| albumartistsort | `TSO2` | `soaa` | `ALBUMARTISTSORT` |
+| tracknumber / totaltracks | `TRCK` (`n/t`) | `trkn` | `TRACKNUMBER` / `TRACKTOTAL` |
+| discnumber / totaldiscs | `TPOS` (`n/t`) | `disk` | `DISCNUMBER` / `DISCTOTAL` |
+| discsubtitle | `TSST` | `DISCSUBTITLE` | `DISCSUBTITLE` |
+| date (release date) | `TDRC` | `©day` | `DATE` |
+| originaldate (release group first release) | `TDOR` | `originaldate` | `ORIGINALDATE` |
+| originalyear | `TXXX:originalyear` | `originalyear` | `ORIGINALYEAR` |
+| genre (top MB genres, multi) | `TCON` | `©gen` | `GENRE` |
+| label | `TPUB` | `LABEL` | `LABEL` |
+| catalognumber | `TXXX:CATALOGNUMBER` | `CATALOGNUMBER` | `CATALOGNUMBER` |
+| barcode | `TXXX:BARCODE` | `BARCODE` | `BARCODE` |
+| isrc | `TSRC` | `ISRC` | `ISRC` |
+| asin | `TXXX:ASIN` | `ASIN` | `ASIN` |
+| media | `TMED` | `MEDIA` | `MEDIA` |
+| releasetype | `TXXX:MusicBrainz Album Type` | `MusicBrainz Album Type` | `RELEASETYPE` |
+| releasestatus | `TXXX:MusicBrainz Album Status` | `MusicBrainz Album Status` | `RELEASESTATUS` |
+| releasecountry | `TXXX:MusicBrainz Album Release Country` | `MusicBrainz Album Release Country` | `RELEASECOUNTRY` |
+| compilation (album artist is Various Artists) | `TCMP` = `1` | `cpil` | `COMPILATION` = `1` |
+| script | `TXXX:SCRIPT` | `SCRIPT` | `SCRIPT` |
+| language | `TLAN` | `LANGUAGE` | `LANGUAGE` |
+| length (ms) | `TLEN` | `LENGTH` | `LENGTH` |
+| lyrics (plain) | `USLT` | `©lyr` | `LYRICS` |
+| front cover | `APIC` (type 3) | `covr` | `METADATA_BLOCK_PICTURE` (type 3) |
+| musicbrainz_recordingid | `UFID:http://musicbrainz.org` | `MusicBrainz Track Id` | `MUSICBRAINZ_TRACKID` |
+| musicbrainz_trackid (release track id) | `TXXX:MusicBrainz Release Track Id` | `MusicBrainz Release Track Id` | `MUSICBRAINZ_RELEASETRACKID` |
+| musicbrainz_albumid (release id) | `TXXX:MusicBrainz Album Id` | `MusicBrainz Album Id` | `MUSICBRAINZ_ALBUMID` |
+| musicbrainz_releasegroupid | `TXXX:MusicBrainz Release Group Id` | `MusicBrainz Release Group Id` | `MUSICBRAINZ_RELEASEGROUPID` |
+| musicbrainz_artistid (multi) | `TXXX:MusicBrainz Artist Id` | `MusicBrainz Artist Id` | `MUSICBRAINZ_ARTISTID` |
+| musicbrainz_albumartistid (multi) | `TXXX:MusicBrainz Album Artist Id` | `MusicBrainz Album Artist Id` | `MUSICBRAINZ_ALBUMARTISTID` |
+| YouTube video id (traceability) | `TXXX:YOUTUBE_VIDEO_ID` | `YOUTUBE_VIDEO_ID` | `YOUTUBE_VIDEO_ID` |
+
+Notes: as in Picard, Vorbis `MUSICBRAINZ_TRACKID` holds the *recording* id and the release-track id is
+`MUSICBRAINZ_RELEASETRACKID`. Release type/status are lower-case (`album`, `official`). Genres are the
+top 5 genres merged from recording, release and release group by vote count. MP3 files are saved as
+ID3v2.4 without an ID3v1 tag. Composite (concatenated) matches store all video ids joined with `+`.
+
+## Updating yt-dlp
+
+YouTube changes frequently; when downloads start failing (403s, "Sign in to confirm", format errors),
+update yt-dlp first:
+
+```bash
+# Docker: rebuild with the newest yt-dlp
+cd backend && uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && cd ..
+docker compose build --pull && docker compose up -d
+
+# Quick hot-fix inside a running container (lost when the container is recreated)
+docker compose exec offliner uv pip install --python /app/backend/.venv/bin/python -U "yt-dlp[default]"
+docker compose restart offliner
+
+# Local development
+cd backend && uv lock --upgrade-package yt-dlp --upgrade-package yt-dlp-ejs && uv sync
+```
+
+`yt-dlp[default]` pulls in `yt-dlp-ejs` (the JS challenge solver scripts); keep a JS runtime (Deno in the
+image; locally `deno` or Node ≥ 20) available. If YouTube requires sign-in for some tracks, export
+cookies from a browser to a `cookies.txt` (Netscape format), mount it into the container and set its path
+in Settings.
+
+## API overview
+
+| Method & path | Purpose |
+|---|---|
+| `GET /api/search?q=&type=all\|artist\|album\|track` | MusicBrainz search |
+| `GET /api/artist/{id}` · `GET /api/release-group/{id}` · `GET /api/release/{id}` | Browse (+ library state) |
+| `GET /api/cover/{release\|release-group}/{id}?size=250\|500\|1200` | Cached Cover Art Archive images |
+| `POST /api/release/{id}/download` · `POST /api/release/{id}/tracks/{tid}/download` · `POST /api/recording/{id}/download` | Queue downloads |
+| `GET /api/track/{tid}` · `POST /api/track/{tid}/retry` · `POST /api/track/{tid}/match` · `POST /api/release/{id}/tracks/{tid}/candidates` | Track detail, retry, manual match, candidates |
+| `POST /api/track/{tid}/lyrics` · `POST /api/release/{id}/lyrics` · `POST /api/library/lyrics` | Lyrics refetch / fill missing |
+| `POST /api/release/{id}/retag` | Refresh tags |
+| `GET /api/library/albums` · `POST /api/library/rescan` | Library |
+| `GET /api/downloads` · `POST /api/downloads/clear` · `POST /api/downloads/retry-failed` | Queue view |
+| `GET /api/stream/{recording_id}` · `GET /api/lyrics/{recording_id}` | Playback |
+| `GET/PUT /api/settings` · `WS /api/ws` | Settings, live events |

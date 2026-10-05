@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
-import { Loader2, Play, Search, User } from "lucide-react";
+import { ArrowDownCircle, CheckCircle2, Loader2, Play, Search, User } from "lucide-react";
 import { api, coverUrl, type SearchResult, type TrackHit } from "@/lib/api";
 import { useDebounced } from "@/lib/hooks";
 import { usePlayer } from "@/lib/player";
@@ -110,6 +110,11 @@ export function SearchPage() {
 
 function SongRow({ t, list, index }: { t: TrackHit; list: TrackHit[]; index: number }) {
   const player = usePlayer();
+  const qc = useQueryClient();
+  const dl = useMutation({
+    mutationFn: () => api.post(`/api/recording/${t.id}/download${t.release ? `?release=${t.release.id}` : ""}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["downloads"] }),
+  });
   const play = () =>
     player.playList(
       list.map((x) => ({
@@ -147,6 +152,15 @@ function SongRow({ t, list, index }: { t: TrackHit; list: TrackHit[]; index: num
         </div>
       </div>
       <span className="text-sm tabular-nums text-muted-foreground">{formatDuration(t.length_ms)}</span>
+      <button
+        className="flex h-7 w-7 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-60"
+        onClick={() => dl.mutate()}
+        disabled={dl.isPending || dl.isSuccess}
+        aria-label="Download"
+        title={dl.isError ? (dl.error as Error).message : dl.isSuccess ? "Queued" : "Download"}
+      >
+        {dl.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : dl.isSuccess ? <CheckCircle2 className="h-[18px] w-[18px] text-primary" /> : <ArrowDownCircle className={dl.isError ? "h-[18px] w-[18px] text-destructive" : "h-[18px] w-[18px]"} />}
+      </button>
     </div>
   );
 }
