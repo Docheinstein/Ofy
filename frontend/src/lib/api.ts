@@ -47,6 +47,49 @@ export interface Settings {
   lrclib_url: string;
   cookies_path: string;
   max_retries: number;
+  sync_host: string;
+  sync_user: string;
+  sync_port: number;
+  sync_path: string;
+  sync_ssh_key: string;
+  sync_delete: boolean;
+}
+
+export type SyncKind = "artist" | "album" | "track";
+
+export interface SyncSelectionItem {
+  kind: SyncKind;
+  ref_id: string;
+  title: string;
+  subtitle: string;
+  created_at: number;
+}
+
+export interface SyncSummary {
+  tracks: number;
+  files: number;
+  bytes: number;
+  pending: number;
+  outside: number;
+}
+
+export interface SyncStatus {
+  running: boolean;
+  dry_run: boolean;
+  started_at: number | null;
+  finished_at: number | null;
+  ok: boolean | null;
+  error: string | null;
+  percent: number;
+  speed: string;
+  eta: string;
+  files: number;
+  bytes: number;
+  pending: number;
+  outside: number;
+  transferred: number;
+  deleted: number;
+  changes?: string[];
 }
 
 export type TrackStatus = "none" | "queued" | "downloading" | "done" | "failed" | "needs_review";

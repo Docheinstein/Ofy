@@ -65,6 +65,17 @@ class Track(SQLModel, table=True):
     updated_at: float = Field(default_factory=time.time)
 
 
+class SyncSelection(SQLModel, table=True):
+    """Something chosen to be kept on the sync remote. Selecting an artist or album covers
+    every track below it, including ones downloaded later."""
+
+    kind: str = Field(primary_key=True)  # artist (MusicBrainz artist id) | album (release id) | track
+    ref_id: str = Field(primary_key=True)
+    title: str = ""
+    subtitle: str = ""
+    created_at: float = Field(default_factory=time.time)
+
+
 class Job(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     kind: str  # match_album | download | retag | lyrics

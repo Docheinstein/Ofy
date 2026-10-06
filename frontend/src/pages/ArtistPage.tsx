@@ -6,6 +6,7 @@ import { api, artistImageUrl, type ArtistDetail } from "@/lib/api";
 import { AlbumCard } from "@/components/AlbumCard";
 import { ArtistAvatar } from "@/components/ArtistAvatar";
 import { Button } from "@/components/ui/button";
+import { SyncToggle } from "@/components/SyncToggle";
 
 export function ArtistPage() {
   const { id } = useParams();
@@ -33,6 +34,7 @@ export function ArtistPage() {
           <p className="mt-3 text-sm text-muted-foreground">
             {[data.country, years, data.disambiguation, data.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ")}
           </p>
+          <SyncToggle variant="button" className="mt-4" target={{ kind: "artist", id: data.id, title: data.name, subtitle: "Artist" }} />
         </div>
       </header>
 

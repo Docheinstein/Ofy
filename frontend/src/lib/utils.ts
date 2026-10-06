@@ -18,3 +18,13 @@ export function formatDuration(ms?: number | null): string {
 export function formatSeconds(sec: number): string {
   return formatDuration(sec * 1000);
 }
+
+export function formatBytes(n: number): string {
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let i = 0;
+  while (n >= 1024 && i < units.length - 1) {
+    n /= 1024;
+    i++;
+  }
+  return `${n.toFixed(i && n < 10 ? 1 : 0)} ${units[i]}`;
+}

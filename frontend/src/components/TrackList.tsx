@@ -4,9 +4,12 @@ import { useLiveTrack } from "@/lib/live";
 import { usePlayer } from "@/lib/player";
 import { cn, formatDuration } from "@/lib/utils";
 import { LyricsIndicator, TrackStatusButton } from "./StatusIcons";
+import { SyncToggle } from "./SyncToggle";
 
 interface Props {
   releaseId: string;
+  artistId: string | null;
+  albumTitle: string;
   tracks: TrackRowData[];
   onPlay: (index: number) => void;
   onOpen: (t: TrackRowData) => void;
@@ -14,16 +17,17 @@ interface Props {
   onRetry: (t: TrackRowData) => void;
 }
 
-export function TrackList({ releaseId, tracks, onPlay, onOpen, onDownload, onRetry }: Props) {
+export function TrackList({ releaseId, artistId, albumTitle, tracks, onPlay, onOpen, onDownload, onRetry }: Props) {
   const multiDisc = tracks.some((t) => t.disc_total > 1);
   let lastDisc = 0;
   return (
     <div className="px-6" data-testid="tracklist">
-      <div className="grid grid-cols-[2.5rem_1fr_2rem_3.5rem_2.5rem] items-center gap-3 border-b px-4 pb-2 text-xs uppercase tracking-wider text-muted-foreground">
+      <div className="grid grid-cols-[2.5rem_1fr_2rem_3.5rem_2.5rem_2rem] items-center gap-3 border-b px-4 pb-2 text-xs uppercase tracking-wider text-muted-foreground">
         <span className="text-right">#</span>
         <span>Title</span>
         <span />
         <span className="flex justify-end"><Clock3 className="h-4 w-4" /></span>
+        <span />
         <span />
       </div>
       <div className="mt-2">
@@ -41,6 +45,8 @@ export function TrackList({ releaseId, tracks, onPlay, onOpen, onDownload, onRet
               <Row
                 t={t}
                 releaseId={releaseId}
+                artistId={artistId}
+                albumTitle={albumTitle}
                 onPlay={() => onPlay(i)}
                 onOpen={() => onOpen(t)}
                 onDownload={() => onDownload(t)}
@@ -54,8 +60,8 @@ export function TrackList({ releaseId, tracks, onPlay, onOpen, onDownload, onRet
   );
 }
 
-function Row({ t, onPlay, onOpen, onDownload, onRetry }: {
-  t: TrackRowData; releaseId: string; onPlay: () => void; onOpen: () => void; onDownload: () => void; onRetry: () => void;
+function Row({ t, releaseId, artistId, albumTitle, onPlay, onOpen, onDownload, onRetry }: {
+  t: TrackRowData; releaseId: string; artistId: string | null; albumTitle: string; onPlay: () => void; onOpen: () => void; onDownload: () => void; onRetry: () => void;
 }) {
   const live = useLiveTrack(t.track_id);
   const s = { ...t.library, ...(live ?? {}) };
@@ -63,7 +69,7 @@ function Row({ t, onPlay, onOpen, onDownload, onRetry }: {
   const isCurrent = current?.track_id === t.track_id || (!current?.track_id && current?.recording_id === t.recording_id);
   return (
     <div
-      className="group grid cursor-pointer grid-cols-[2.5rem_1fr_2rem_3.5rem_2.5rem] items-center gap-3 rounded-md px-4 py-2 hover:bg-elevated"
+      className="group grid cursor-pointer grid-cols-[2.5rem_1fr_2rem_3.5rem_2.5rem_2rem] items-center gap-3 rounded-md px-4 py-2 hover:bg-elevated"
       onClick={onOpen}
       onDoubleClick={onPlay}
       data-track-id={t.track_id}
@@ -98,6 +104,12 @@ function Row({ t, onPlay, onOpen, onDownload, onRetry }: {
           onReview={onOpen}
         />
       </div>
+      <SyncToggle
+        target={{ kind: "track", id: t.track_id, title: t.title, subtitle: `${t.artist} — ${albumTitle}` }}
+        artistId={artistId}
+        releaseId={releaseId}
+        hideWhenOff
+      />
     </div>
   );
 }

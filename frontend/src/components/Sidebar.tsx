@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { Download, Library, Search, Settings } from "lucide-react";
+import { Download, FolderSync, Library, Search, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
   { to: "/search", label: "Search", icon: Search },
   { to: "/library", label: "Library", icon: Library },
   { to: "/downloads", label: "Downloads", icon: Download },
+  { to: "/sync", label: "Sync", icon: FolderSync },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 

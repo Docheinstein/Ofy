@@ -10,6 +10,7 @@ import { AlbumPage } from "@/pages/AlbumPage";
 import { LibraryPage } from "@/pages/LibraryPage";
 import { DownloadsPage } from "@/pages/DownloadsPage";
 import { SettingsPage } from "@/pages/SettingsPage";
+import { SyncPage } from "@/pages/SyncPage";
 
 export default function App() {
   useLiveUpdates();
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/album/:id" element={<AlbumPage />} />
               <Route path="/library" element={<LibraryPage />} />
               <Route path="/downloads" element={<DownloadsPage />} />
+              <Route path="/sync" element={<SyncPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="*" element={<Navigate to="/search" replace />} />
             </Routes>

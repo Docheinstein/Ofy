@@ -1,6 +1,6 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import type { TrackEvent, TrackState } from "./api";
+import type { SyncStatus, TrackEvent, TrackState } from "./api";
 
 type Live = Partial<TrackState> & { status: TrackState["status"] };
 
@@ -59,6 +59,13 @@ export function useLiveUpdates() {
       ws.onopen = () => (retry = 1000);
       ws.onmessage = (m) => {
         const ev = JSON.parse(m.data) as TrackEvent | { type: string; release_id?: string };
+        if (ev.type === "sync") {
+          const s = ev as unknown as SyncStatus;
+          qc.setQueryData<SyncStatus>(["sync-status"], (old) => ({ ...old, ...s, changes: s.running ? [] : old?.changes }));
+          // The finished run's list of changes only comes with the full status.
+          if (!s.running) qc.invalidateQueries({ queryKey: ["sync-status"] });
+          return;
+        }
         if (ev.type === "track") {
           const t = ev as TrackEvent;
           setLive(t.track_id, {

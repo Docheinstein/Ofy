@@ -121,6 +121,13 @@ class Settings(BaseModel):
     lrclib_url: str = "https://lrclib.net"
     cookies_path: str = ""
     max_retries: int = Field(default=3, ge=0, le=10)
+    # Sync to a remote peer (rsync over SSH; no host = a local folder, e.g. a mounted drive)
+    sync_host: str = ""
+    sync_user: str = ""
+    sync_port: int = Field(default=22, ge=1, le=65535)
+    sync_path: str = ""
+    sync_ssh_key: str = ""
+    sync_delete: bool = True
 
     @field_validator("path_template")
     @classmethod

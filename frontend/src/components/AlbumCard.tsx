@@ -1,10 +1,11 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle2, CircleDashed } from "lucide-react";
 import { coverUrl, type ReleaseGroupSummary } from "@/lib/api";
 import { Cover } from "./Cover";
 import { AlbumStatusBadge } from "./StatusIcons";
 
-export function AlbumCard({ rg, subtitle }: { rg: ReleaseGroupSummary; subtitle?: string }) {
+export function AlbumCard({ rg, subtitle, action }: { rg: ReleaseGroupSummary; subtitle?: string; action?: ReactNode }) {
   const status = rg.library?.status ?? "none";
   return (
     <Link
@@ -13,6 +14,7 @@ export function AlbumCard({ rg, subtitle }: { rg: ReleaseGroupSummary; subtitle?
     >
       <div className="relative">
         <Cover src={coverUrl("release-group", rg.id, 250)} alt={rg.title} />
+        {action && <div className="absolute right-2 top-2">{action}</div>}
         {status !== "none" && (
           <div className="absolute bottom-2 right-2 rounded-full bg-black/70 p-1">
             {status === "complete" ? (

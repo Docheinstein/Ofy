@@ -14,6 +14,7 @@ import { AlbumStatusBadge } from "@/components/StatusIcons";
 import { Cover } from "@/components/Cover";
 import { TrackList } from "@/components/TrackList";
 import { TrackDrawer } from "@/components/TrackDrawer";
+import { SyncToggle } from "@/components/SyncToggle";
 
 export function AlbumPage() {
   const { id } = useParams();
@@ -92,6 +93,7 @@ export function AlbumPage() {
           {actions.downloadAlbum.isPending ? <Loader2 className="animate-spin" /> : <ArrowDownCircle />}
           {lib.status === "complete" ? "Downloaded" : lib.status === "partial" ? "Download remaining" : "Download album"}
         </Button>
+        <SyncToggle variant="button" target={{ kind: "album", id: r.id, title: r.title, subtitle: r.artist }} artistId={r.artist_id} />
         {lib.done > 0 && (
           <>
             <Tooltip>
@@ -135,6 +137,8 @@ export function AlbumPage() {
 
       <TrackList
         releaseId={r.id}
+        artistId={r.artist_id}
+        albumTitle={r.title}
         tracks={r.tracks}
         onPlay={playFrom}
         onOpen={setOpen}

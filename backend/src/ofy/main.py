@@ -15,6 +15,7 @@ from ofy.api import actions as actions_api
 from ofy.api import browse as browse_api
 from ofy.api import settings as settings_api
 from ofy.api import stream as stream_api
+from ofy.api import sync as sync_api
 from ofy.config import env
 from ofy.db import get_engine, recover_interrupted_jobs
 from ofy.events import hub
@@ -58,6 +59,7 @@ def create_app() -> FastAPI:
     app.include_router(browse_api.router)
     app.include_router(actions_api.router)
     app.include_router(stream_api.router)
+    app.include_router(sync_api.router)
 
     @app.get("/api/health")
     def health() -> dict:

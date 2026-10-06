@@ -6,6 +6,7 @@ import { api, type LibraryAlbum } from "@/lib/api";
 import { AlbumCard } from "@/components/AlbumCard";
 import { ArtistAvatar } from "@/components/ArtistAvatar";
 import { Button } from "@/components/ui/button";
+import { SyncToggle } from "@/components/SyncToggle";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type View = "grid" | "list";
@@ -148,19 +149,22 @@ function summary(g: Group) {
 /** One line of the list view: the artist only; clicking it shows that artist's albums. */
 function ArtistRow({ group: g, onOpen }: { group: Group; onOpen: () => void }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="flex items-center gap-4 rounded-md px-3 py-2 text-left transition-colors hover:bg-elevated"
-      data-testid="library-artist-row"
-    >
-      <Avatar group={g} className="h-12 w-12" />
-      <div className="min-w-0 flex-1">
-        <div className="truncate font-semibold">{g.artist}</div>
-        <div className="text-sm text-muted-foreground">{summary(g)}</div>
-      </div>
+    <div className="group flex items-center gap-2 rounded-md pr-3 transition-colors hover:bg-elevated">
+      <button
+        type="button"
+        onClick={onOpen}
+        className="flex min-w-0 flex-1 items-center gap-4 px-3 py-2 text-left"
+        data-testid="library-artist-row"
+      >
+        <Avatar group={g} className="h-12 w-12" />
+        <div className="min-w-0 flex-1">
+          <div className="truncate font-semibold">{g.artist}</div>
+          <div className="text-sm text-muted-foreground">{summary(g)}</div>
+        </div>
+      </button>
+      {g.artistId && <SyncToggle target={{ kind: "artist", id: g.artistId, title: g.artist, subtitle: "Artist" }} hideWhenOff />}
       <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
-    </button>
+    </div>
   );
 }
 
@@ -168,7 +172,7 @@ function ArtistGroup({ group: g }: { group: Group }) {
   const avatar = <Avatar group={g} className="h-16 w-16" />;
   return (
     <section data-testid="library-artist">
-      <div className="mb-2 flex items-center gap-4 px-3">
+      <div className="group mb-2 flex items-center gap-4 px-3">
         {g.artistId ? <Link to={`/artist/${g.artistId}`}>{avatar}</Link> : avatar}
         <div className="min-w-0">
           {g.artistId ? (
@@ -178,6 +182,7 @@ function ArtistGroup({ group: g }: { group: Group }) {
           )}
           <div className="text-sm text-muted-foreground">{summary(g)}</div>
         </div>
+        {g.artistId && <SyncToggle target={{ kind: "artist", id: g.artistId, title: g.artist, subtitle: "Artist" }} hideWhenOff />}
       </div>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-1">
         {g.albums.map((a) => (
@@ -195,6 +200,14 @@ function ArtistGroup({ group: g }: { group: Group }) {
               library: a.library,
             }}
             subtitle={[a.year, `${a.library.done}/${a.library.total}`].filter(Boolean).join(" • ")}
+            action={
+              <SyncToggle
+                target={{ kind: "album", id: a.release_id, title: a.title, subtitle: a.artist }}
+                artistId={a.artist_id}
+                hideWhenOff
+                className="bg-black/70"
+              />
+            }
           />
         ))}
       </div>

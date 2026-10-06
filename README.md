@@ -229,6 +229,25 @@ otherwise it matches the recording (album context when `?release=` is given), re
 yt-dlp and proxies it through the backend (Range requests forwarded). The bottom player bar has
 play/pause/seek/volume/next/previous, and the lyrics panel highlights the current line of the `.lrc`.
 
+### Sync to a remote peer
+
+Mark artists, albums or songs with the cloud button (Library, artist and album pages, track rows) to
+keep them on another computer. Selecting an artist or album covers everything below it, including
+tracks downloaded later; children of a selected parent show as included. The **Sync** page holds the
+destination and runs the transfer:
+
+* **Destination**: host (name/IP), user, SSH port, folder and an optional SSH key. Leave the host empty
+  to sync to a local folder instead (a mounted drive, a USB stick…). Login must work without a
+  password (`ssh-copy-id user@host`); new host keys are accepted on first connect. **Test connection**
+  creates the folder and checks that the remote has `rsync`.
+* **Transfer**: `rsync` (needed on both ends) copies the selected audio files and their `.lrc`/`.txt`
+  sidecars, keeping the library's folder layout. Ofy mirrors the selection as a tree of symlinks in
+  `<data dir>/sync/stage` and rsyncs that with `--copy-links`, so only changed files are sent. With
+  **Mirror the selection** on (default) files in the destination that aren't selected are deleted —
+  use a folder only Ofy writes to. A sync that would empty the destination is refused.
+* **Preview changes** is a dry run listing what would be copied and deleted. Progress is pushed over
+  the WebSocket; a running sync can be cancelled.
+
 ## Lyrics behaviour
 
 1. After tagging, `GET {LRCLIB}/api/get?artist_name=…&track_name=…&album_name=…&duration=…` (duration in
@@ -332,4 +351,5 @@ tracks, export cookies from a browser to a `cookies.txt` (Netscape format) and s
 | `GET /api/library/albums` · `POST /api/library/rescan` | Library |
 | `GET /api/downloads` · `POST /api/downloads/clear` · `POST /api/downloads/retry-failed` | Queue view |
 | `GET /api/stream/{recording_id}` · `GET /api/lyrics/{recording_id}` | Playback |
+| `GET/PUT /api/sync/selection` · `GET /api/sync/summary` · `POST /api/sync/test` · `POST /api/sync/run` · `GET /api/sync/status` · `POST /api/sync/cancel` | Sync selection and transfers |
 | `GET/PUT /api/settings` · `WS /api/ws` | Settings, live events |
