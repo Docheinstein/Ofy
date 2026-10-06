@@ -61,6 +61,7 @@ FUNCTIONAL REQUIREMENTS
      TXXX:"MusicBrainz Album Id" etc. for ID3 and the equivalent keys for MP4/Vorbis.
    - Embedded front cover art (APIC type 3 / covr / METADATA_BLOCK_PICTURE).
    - Do NOT save a separate cover.jpg in the album folder (cover is embedded only).
+   - Do NOT save the artist photo in the music folder either; it lives in the app's image cache.
    - Store the YouTube video id in a custom tag (e.g. TXXX:YOUTUBE_VIDEO_ID) for traceability.
    - Retagging: a "Refresh tags" action rewrites tags of already-downloaded files from fresh
      MusicBrainz data without re-downloading audio.

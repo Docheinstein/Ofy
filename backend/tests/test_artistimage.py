@@ -98,3 +98,20 @@ async def test_429_pauses_all_lookups_and_is_not_cached(tmp_db, tmp_path, monkey
     monkeypatch.setattr(artistimage, "_cooldown_until", 0.0)  # cooldown over
     assert await artistimage.fetch_artist_image("a") is None
     assert len(calls) == 2  # "a" was not negative-cached
+
+
+
+async def test_prefetch_warms_cache_only(monkeypatch, tmp_path):
+    calls = []
+
+    async def fake_fetch(mbid, size="500", qid=None):
+        calls.append((mbid, size))
+        return b"jpeg"
+
+    monkeypatch.setattr(artistimage, "fetch_artist_image", fake_fetch)
+    await artistimage.prefetch_artist_image("pf-id")
+    # Various Artists and unknown artists have no photo to fetch
+    from ofy.tagging.model import VARIOUS_ARTISTS_ID
+    await artistimage.prefetch_artist_image(VARIOUS_ARTISTS_ID)
+    await artistimage.prefetch_artist_image(None)
+    assert calls == [("pf-id", "250")]

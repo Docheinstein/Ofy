@@ -204,7 +204,8 @@ numbered files.
   concurrency, retries with exponential backoff + jitter, and a random pause before each download.
 * yt-dlp (`bestaudio`, preferring the codec that can be kept) → ffmpeg → tag → lyrics → **atomic move**
   (temp file in the destination directory, `fsync`, `rename`). The front cover is only embedded in
-  the files (no `cover.jpg` is written).
+  the files (no `cover.jpg` is written). The artist's photo (Wikidata/Commons) is fetched into the
+  app's image cache (`<data dir>/covers/`), never into the music folder.
 * Live progress (`matching → downloading → converting → tagging → lyrics → done`) is pushed over the
   WebSocket at `/api/ws`.
 

@@ -154,3 +154,12 @@ async def fetch_artist_image(mbid: str, size: str = "500", qid: str | None = Non
     tmp.write_bytes(r.content)
     tmp.replace(path)
     return r.content
+
+
+async def prefetch_artist_image(mbid: str | None) -> None:
+    """Warm the app's image cache with the artist's photo (never written into the music folder),
+    so the Library shows it straight away. Best effort: "Various Artists" has no photo."""
+    from ofy.tagging.model import VARIOUS_ARTISTS_ID
+
+    if mbid and mbid != VARIOUS_ARTISTS_ID:
+        await fetch_artist_image(mbid, "250")

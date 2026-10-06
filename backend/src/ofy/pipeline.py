@@ -12,7 +12,7 @@ import shutil
 import time
 from pathlib import Path
 
-from ofy import coverart
+from ofy import artistimage, coverart
 from ofy.config import Settings, env
 from ofy.db import Job, load_settings
 from ofy.download import convert as conv
@@ -192,6 +192,7 @@ async def _download_track(track_id: str, release: dict, settings: Settings, work
         lyrics_status, lp = lyrics_service.write_sidecar(dest, lyr, model, settings)
         lyrics_path = str(lp) if lp else None
     _record_album_folder(t.release_id, dest.parent)
+    await _cache_artist_image(model)
     update_track(
         track_id, status="done", stage=None, progress=1.0, error=None, file_path=str(dest), file_format=fmt,
         lyrics_status=lyrics_status, lyrics_path=lyrics_path,
@@ -234,6 +235,14 @@ def remove_with_sidecars(path: Path) -> None:
             p.unlink(missing_ok=True)
         except OSError:
             pass
+
+
+async def _cache_artist_image(model: TagModel) -> None:
+    ids = model.musicbrainz_albumartistids
+    try:
+        await artistimage.prefetch_artist_image(ids[0] if ids else None)
+    except Exception as e:  # never fails a download
+        log.warning("caching artist image failed: %s", e)
 
 
 def _record_album_folder(release_id: str, folder: Path) -> None:
