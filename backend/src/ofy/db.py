@@ -76,6 +76,32 @@ class SyncSelection(SQLModel, table=True):
     created_at: float = Field(default_factory=time.time)
 
 
+class YTImport(SQLModel, table=True):
+    """A YouTube video pasted as a link (alone or as part of a playlist). It is looked up on
+    MusicBrainz and, once matched, downloaded as that MusicBrainz track: tags never come from YouTube."""
+
+    id: int | None = Field(default=None, primary_key=True)
+    video_id: str = Field(index=True)
+    batch: str = Field(index=True)  # the playlist id, or the video id for a single link
+    batch_title: str = ""
+    position: int = 0
+    # what YouTube says about it, used to search MusicBrainz
+    title: str = ""
+    artists: str = "[]"  # JSON list
+    album: str | None = None
+    duration: int | None = None  # seconds
+    video_type: str | None = None
+    # resolving | matched | in_library | needs_review | failed
+    status: str = Field(default="resolving", index=True)
+    track_id: str | None = None  # the MusicBrainz release track it was matched to
+    release_id: str | None = None
+    match_score: float | None = None
+    candidates: str = "[]"  # JSON: MusicBrainz recordings close to it, to pick from by hand
+    error: str | None = None
+    created_at: float = Field(default_factory=time.time)
+    updated_at: float = Field(default_factory=time.time)
+
+
 class Job(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     kind: str  # match_album | download | retag | lyrics

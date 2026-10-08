@@ -279,6 +279,59 @@ export interface LibraryTrack {
   lyrics_status: LyricsStatus;
 }
 
+/** A pasted YouTube video on its way to a MusicBrainz track. */
+export interface YTImport {
+  id: number;
+  video_id: string;
+  batch: string;
+  batch_title: string;
+  position: number;
+  title: string;
+  artists: string[];
+  album: string | null;
+  duration: number | null;
+  status: "resolving" | "matched" | "in_library" | "needs_review" | "failed";
+  track_id: string | null;
+  release_id: string | null;
+  match_score: number | null;
+  candidates: MBCandidate[];
+  error: string | null;
+  created_at: number;
+  /** The MusicBrainz track it was matched to, with its download state. */
+  track: {
+    title: string;
+    artist: string;
+    recording_id: string;
+    status: TrackStatus;
+    stage: string | null;
+    progress: number;
+    error: string | null;
+    album: string | null;
+    release_group_id: string;
+  } | null;
+}
+
+export interface MBCandidate {
+  recording_id: string;
+  title: string;
+  artist: string;
+  length_ms: number | null;
+  disambiguation: string | null;
+  release_id: string;
+  release_title: string;
+  release_group_id: string | null;
+  date: string | null;
+  score: number;
+}
+
+export interface YTImportStarted {
+  kind: "video" | "playlist";
+  batch: string;
+  title: string;
+  queued: number;
+  total: number;
+}
+
 export interface DownloadItem {
   job_id: number | null;
   kind: string;

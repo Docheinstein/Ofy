@@ -34,7 +34,7 @@ class YTMusicService:
                 self._yt = YTMusic()
             return self._yt
 
-    async def _call(self, key: str, fn_name: str, *args, **kwargs) -> Any:
+    async def _call(self, key: str, fn_name: str, *args, ttl: float = TTL, **kwargs) -> Any:
         cached = cache_get(key)
         if cached is not None:
             return cached
@@ -52,7 +52,7 @@ class YTMusicService:
             await asyncio.sleep(delay * (attempt + 1))
         else:
             raise RuntimeError(f"YouTube Music {fn_name} failed: {last}")
-        cache_set(key, result, TTL)
+        cache_set(key, result, ttl)
         return result
 
     async def search_albums(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
@@ -76,6 +76,18 @@ class YTMusicService:
             t.pop("thumbnails", None)
         cache_set(key, tracks, TTL)
         return tracks
+
+
+    async def get_track(self, video_id: str) -> dict[str, Any] | None:
+        """Music metadata of one video (title, artists, album for official audio, length)."""
+        data = await self._call(f"ytm:watch:{video_id}", "get_watch_playlist", videoId=video_id, limit=1)
+        tracks = data.get("tracks") or []
+        return next((t for t in tracks if t.get("videoId") == video_id), None)
+
+    async def get_full_playlist(self, playlist_id: str) -> dict[str, Any]:
+        """A whole playlist (every track, not just the first 200), for importing it."""
+        # briefly cached: a playlist pasted again is usually pasted because it changed
+        return await self._call(f"ytm:playlist-full:{playlist_id}", "get_playlist", playlist_id, limit=None, ttl=60)
 
 
 _service: YTMusicService | None = None

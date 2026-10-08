@@ -352,6 +352,10 @@ def register_handlers() -> None:
     queue.register("retag", handle_retag)
     queue.register("lyrics", handle_lyrics)
 
+    from ofy import ytimport
+
+    queue.register(ytimport.JOB_KIND, ytimport.handle_resolve, ytimport.on_resolve_failed)
+
 
 def candidates_of(track_id: str) -> list[dict]:
     t = get_track(track_id)

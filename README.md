@@ -225,6 +225,23 @@ numbered files.
 * Live progress (`matching → downloading → converting → tagging → lyrics → done`) is pushed over the
   WebSocket at `/api/ws`.
 
+### Downloading from a YouTube link
+
+* The **Downloads** page takes a pasted YouTube link: a video (`watch?v=`, `youtu.be/`, `/shorts/`;
+  a watch link opened inside a playlist still means just that video) downloads that one song, a
+  playlist (`playlist?list=`, or a YouTube Music album) downloads every song in it.
+* YouTube is only the audio source, as for everything else. Each video's title, artists, album and
+  length (from YouTube Music; "Artist - Title" uploads are read both ways) are searched on
+  MusicBrainz. The recording is scored on title, artist and length (a radio edit or live take is
+  a different recording; a music video's length is trusted less than official audio's). Recordings
+  on the artist's own studio albums and on many releases rank first, ahead of a compilation's own
+  copy of a hit. The song is filed under a release already in the library, else the album YouTube
+  names, else the canonical official release, never a various-artists compilation if the artist's
+  own release has it.
+* A confident match downloads the pasted video as that MusicBrainz track, tagged and named like
+  any other download. A song already in the library is not downloaded again. Without a confident
+  match, the video waits for you to choose a recording among the closest ones, or search MusicBrainz.
+
 ### Library state
 
 * Track status: `none | queued | downloading | done | failed | needs_review`; lyrics status:
@@ -366,6 +383,7 @@ tracks, export cookies from a browser to a `cookies.txt` (Netscape format) and s
 | `POST /api/release/{id}/retag` | Refresh tags |
 | `GET /api/library/albums` · `POST /api/library/rescan` | Library |
 | `GET /api/downloads` · `POST /api/downloads/clear` · `POST /api/downloads/retry-failed` | Queue view |
+| `POST /api/youtube/import` · `GET /api/youtube/imports` · `POST /api/youtube/imports/{id}/match\|retry` · `DELETE /api/youtube/imports/{id}` · `POST /api/youtube/imports/clear` | Downloads from YouTube links |
 | `GET /api/stream/{recording_id}` · `GET /api/lyrics/{recording_id}` | Playback |
 | `GET/PUT /api/sync/selection` · `GET /api/sync/summary` · `POST /api/sync/test` · `POST /api/sync/run` · `GET /api/sync/status` · `POST /api/sync/cancel` | Sync selection and transfers |
 | `GET/PUT /api/settings` · `WS /api/ws` | Settings, live events |

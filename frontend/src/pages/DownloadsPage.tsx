@@ -7,6 +7,7 @@ import { useLiveTrack } from "@/lib/live";
 import { Button } from "@/components/ui/button";
 import { Cover } from "@/components/Cover";
 import { TrackStatusButton } from "@/components/StatusIcons";
+import { YouTubeImports } from "@/components/YouTubeImports";
 
 export function DownloadsPage() {
   const qc = useQueryClient();
@@ -27,6 +28,7 @@ export function DownloadsPage() {
         <Button variant="secondary" size="sm" onClick={() => retryAll.mutate()}><RotateCw /> Retry failed</Button>
         <Button variant="ghost" size="sm" onClick={() => clear.mutate()}><Trash2 /> Clear finished</Button>
       </div>
+      <YouTubeImports />
       {isLoading && <Loader2 className="animate-spin" />}
       <Section title="In progress" items={data?.active ?? []} empty="Nothing downloading." />
       <Section title="Recent" items={data?.recent ?? []} empty="No recent downloads." />

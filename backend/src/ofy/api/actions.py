@@ -18,6 +18,7 @@ from ofy.mb.client import MusicBrainzError, NotFound, get_mb
 from ofy.pipeline import enqueue_album, enqueue_track
 from ofy.tagging import writers
 from ofy.tracks import ensure_release_rows, get_track, save_candidates, tracks_for_release, update_track
+from ofy.ytimport import JOB_KIND as YT_RESOLVE
 
 router = APIRouter(prefix="/api", tags=["actions"])
 
@@ -224,9 +225,11 @@ def get_library_albums() -> list[dict[str, Any]]:
 @router.get("/downloads")
 def downloads(limit: int = 100) -> dict[str, Any]:
     with session() as s:
-        active = list(s.exec(select(Job).where(col(Job.status).in_(["pending", "running"]))
+        # YouTube links being looked up on MusicBrainz are listed with their imports instead
+        shown = Job.kind != YT_RESOLVE
+        active = list(s.exec(select(Job).where(col(Job.status).in_(["pending", "running"]), shown)
                              .order_by(col(Job.created_at))).all())
-        recent = list(s.exec(select(Job).where(col(Job.status).in_(["done", "failed"]))
+        recent = list(s.exec(select(Job).where(col(Job.status).in_(["done", "failed"]), shown)
                              .order_by(col(Job.updated_at).desc()).limit(limit)).all())
         ids = {j.track_id for j in active + recent if j.track_id}
         tracks = {t.track_id: t for t in s.exec(select(Track).where(col(Track.track_id).in_(ids))).all()}
