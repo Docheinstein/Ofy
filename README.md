@@ -78,6 +78,22 @@ JSON report and exits; use it to diagnose a machine.
 The same app also runs as a plain web server (e.g. on a home server, used from any browser):
 `./run.sh web`, or directly `cd backend && uv run python -m ofy` (UI on http://localhost:8080).
 
+### Android (Termux)
+
+On a phone Ofy runs as a web app: the server in [Termux](https://termux.dev), the UI in the browser.
+
+```bash
+termux-setup-storage    # once: lets the library live in shared storage (Music/Ofy)
+./termux.sh setup       # installs packages, the backend venv and the UI build
+./termux.sh             # starts the server and opens http://localhost:8080
+```
+
+The first setup is slow: Termux has no prebuilt wheels, so pydantic-core (Rust), rapidfuzz and a
+few C extensions are compiled on the phone. If the UI won't build there, run `./build.sh` on a
+computer and copy `frontend/dist` over. The server listens on localhost only (set `OFY_HOST=0.0.0.0`
+to reach it over Wi-Fi) and holds a Termux wake lock while running so downloads aren't suspended.
+The desktop window (`ofy-desktop`) isn't available on Android.
+
 ## Development
 
 `./run.sh dev` is the usual loop: edit Python under `backend/src` or TypeScript under `frontend/src` and
