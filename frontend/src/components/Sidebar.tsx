@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { Download, FolderSync, Library, Search, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, FolderSync, Library, Search, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useHistoryNav } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -14,9 +16,11 @@ export function Sidebar() {
   return (
     <aside className="flex w-60 shrink-0 flex-col gap-2 max-md:w-16">
       <div className="rounded-lg bg-surface px-3 py-4">
-        <div className="mb-4 flex items-center gap-2 px-3 max-md:justify-center max-md:px-0">
+        <div className="mb-4 flex items-center gap-2 px-3 max-md:flex-col max-md:px-0">
           <img src="/favicon.svg" alt="" className="h-7 w-7" />
           <span className="text-lg font-extrabold tracking-tight max-md:hidden">Ofy</span>
+          <div className="flex-1" />
+          <HistoryArrows />
         </div>
         <nav className="flex flex-col gap-1">
           {items.map(({ to, label, icon: Icon }) => (
@@ -38,5 +42,19 @@ export function Sidebar() {
       </div>
       <div className="flex-1 rounded-lg bg-surface" />
     </aside>
+  );
+}
+
+function HistoryArrows() {
+  const { canBack, canForward, back, forward } = useHistoryNav();
+  return (
+    <div className="flex gap-1 max-md:flex-col">
+      <Button variant="secondary" size="iconsm" onClick={back} disabled={!canBack} aria-label="Go back" title="Go back">
+        <ChevronLeft />
+      </Button>
+      <Button variant="secondary" size="iconsm" onClick={forward} disabled={!canForward} aria-label="Go forward" title="Go forward">
+        <ChevronRight />
+      </Button>
+    </div>
   );
 }
