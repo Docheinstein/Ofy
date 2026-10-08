@@ -72,6 +72,13 @@ def test_selection_covers_children(library):
     assert sync.build_plan(library).outside == 1  # a file outside the library folder is skipped
 
 
+def test_library_albums_list_downloaded_tracks(library):
+    from ofy.api.actions import library_albums
+
+    tracks = {a["release_id"]: [t["track_id"] for t in a["tracks"]] for a in library_albums()}
+    assert tracks == {"meddle": ["echoes", "otd"], "wall": ["heyyou"], "rumours": ["dreams", "odd"]}
+
+
 def test_rsync_command_over_ssh(tmp_path):
     s = Settings(sync_host="nas.local", sync_user="me", sync_port=2222, sync_path="~/Music/Ofy", sync_ssh_key="/k/id")
     cmd = sync.rsync_command(s, tmp_path, dry_run=True)

@@ -276,10 +276,14 @@ def library_albums() -> list[dict[str, Any]]:
         for t in ts:
             if t.status == "done":
                 lyr[t.lyrics_status] = lyr.get(t.lyrics_status, 0) + 1
-        out.append({**a.model_dump(), "library": summ, "lyrics": lyr})
+        # the downloaded songs, for the library tree (whether each is synced is resolved by the UI)
+        done = sorted((t for t in ts if t.status == "done"), key=lambda t: (t.disc, t.position))
+        songs = [{"track_id": t.track_id, "recording_id": t.recording_id, "disc": t.disc, "position": t.position,
+                  "title": t.title, "artist": t.artist, "length_ms": t.length_ms, "lyrics_status": t.lyrics_status}
+                 for t in done]
+        out.append({**a.model_dump(), "library": summ, "lyrics": lyr, "tracks": songs})
     out.sort(key=lambda x: (x["artist"].lower(), x["year"] or "", x["title"].lower()))
     return out
-
 
 
 @router.post("/library/rescan")

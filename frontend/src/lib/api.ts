@@ -264,6 +264,19 @@ export interface LibraryAlbum {
   folder: string | null;
   library: AlbumLibrary;
   lyrics: Record<string, number>;
+  /** The downloaded songs, by disc and position. */
+  tracks: LibraryTrack[];
+}
+
+export interface LibraryTrack {
+  track_id: string;
+  recording_id: string;
+  disc: number;
+  position: number;
+  title: string;
+  artist: string;
+  length_ms: number | null;
+  lyrics_status: LyricsStatus;
 }
 
 export interface DownloadItem {
