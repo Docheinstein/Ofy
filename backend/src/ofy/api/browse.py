@@ -156,10 +156,18 @@ async def release(mbid: str) -> dict[str, Any]:
 @router.get("/cover/{kind}/{mbid}")
 async def cover(kind: Literal["release", "release-group"], mbid: str,
                 size: Literal["250", "500", "1200"] = "500", fallback_rg: str | None = None) -> Response:
-    data = await coverart.fetch_front(kind, mbid, size)
-    if data is None and fallback_rg:
-        data = await coverart.fetch_front("release-group", fallback_rg, size)
+    unavailable = False
+    data = None
+    for k, m in ((kind, mbid), ("release-group", fallback_rg)):
+        if data is not None or not m:
+            continue
+        try:
+            data = await coverart.fetch_front(k, m, size)
+        except coverart.CoverUnavailable:
+            unavailable = True
     if data is None:
+        if unavailable:  # may exist: don't let the browser remember the failure
+            return Response(status_code=503, headers={"Cache-Control": "no-store"})
         return Response(status_code=404, headers={"Cache-Control": "public, max-age=3600"})
     return Response(data, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=604800"})
 
@@ -174,7 +182,7 @@ async def artist_image(mbid: str, size: Literal["250", "500", "1200"] = "500",
         wikidata = None
     data = await artistimage.fetch_artist_image(mbid, size, wikidata)
     if data is None and fallback_rg:
-        data = await coverart.fetch_front("release-group", fallback_rg, size)
+        data = await coverart.front_or_none("release-group", fallback_rg, size)
     if data is None:
         return Response(status_code=404, headers={"Cache-Control": "public, max-age=3600"})
     media = "image/png" if data[:8] == b"\x89PNG\r\n\x1a\n" else "image/jpeg"
