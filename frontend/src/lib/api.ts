@@ -250,6 +250,10 @@ export interface TrackDetail {
   match_source: string | null;
   candidates: Candidate[];
   tags: Record<string, string[]> | null;
+  /** The file's tags by internal name (editable view), null with no file on disk. */
+  fields: Record<string, string[]> | null;
+  /** Every tag name the editor may set, in display order. */
+  editable: string[];
   threshold: number;
 }
 

@@ -134,3 +134,52 @@ def test_multi_value_fields(tmp_path, model):
 
 def test_jpeg_size():
     assert writers.jpeg_size(TINY_JPEG) == (1, 1)
+
+
+@pytest.mark.parametrize("ext", ["mp3", "m4a", "opus"])
+def test_edit_fields(tmp_path, model, ext):
+    path = make_audio(tmp_path, ext)
+    writers.write_tags(path, model, TINY_JPEG)
+    before = writers.read_fields(path)
+    writers.edit_fields(path, {
+        "title": ["Airbag (Remastered)"],          # edit
+        "genre": ["Rock", "Alternative"],          # add, multi-valued
+        "isrc": [],                                # remove
+        "totaltracks": ["13"],                     # half of TRCK / trkn
+        "musicbrainz_albumid": ["  "],             # blank counts as removal
+    })
+    got = writers.read_fields(path)
+    assert got["title"] == ["Airbag (Remastered)"]
+    assert got["genre"] == ["Rock", "Alternative"]
+    assert "isrc" not in got and "musicbrainz_albumid" not in got
+    assert got["tracknumber"] == before["tracknumber"] and got["totaltracks"] == ["13"]
+    # untouched: other tags, lyrics and the cover
+    assert got["album"] == before["album"]
+    assert got["musicbrainz_recordingid"] == before["musicbrainz_recordingid"]
+    assert got["lyrics"] == before["lyrics"]
+    assert got["~cover"] == ["front"]
+
+    writers.edit_fields(path, {"tracknumber": [], "totaltracks": [], "musicbrainz_recordingid": []})
+    got = writers.read_fields(path)
+    assert "tracknumber" not in got and "totaltracks" not in got and "musicbrainz_recordingid" not in got
+
+
+@pytest.mark.parametrize("changes", [
+    {"lyrics": ["la la"]},
+    {"made_up": ["x"]},
+    {"tracknumber": ["two"]},
+    {"discnumber": ["1", "2"]},
+    {"compilation": ["yes"]},
+])
+def test_edit_fields_rejects(tmp_path, model, changes):
+    path = make_audio(tmp_path, "mp3")
+    writers.write_tags(path, model, TINY_JPEG)
+    with pytest.raises(ValueError):
+        writers.edit_fields(path, changes)
+
+
+def test_edit_fields_total_needs_number(tmp_path, model):
+    path = make_audio(tmp_path, "opus")
+    writers.write_tags(path, model, TINY_JPEG)
+    with pytest.raises(ValueError):
+        writers.edit_fields(path, {"tracknumber": [], "totaltracks": ["12"]})

@@ -122,10 +122,12 @@ def track_detail(track_id: str) -> dict[str, Any]:
     if t is None:
         raise HTTPException(404, "Unknown track")
     tags = None
+    fields = None
     lyrics_text = None
     if t.file_path and Path(t.file_path).is_file():
         try:
             tags = writers.read_display(Path(t.file_path))
+            fields = _editable_fields(Path(t.file_path))
         except Exception as e:
             tags = {"error": [str(e)]}
     if t.lyrics_path and Path(t.lyrics_path).is_file():
@@ -134,9 +136,37 @@ def track_detail(track_id: str) -> dict[str, Any]:
         **t.model_dump(exclude={"candidates"}),
         "candidates": json.loads(t.candidates or "[]"),
         "tags": tags,
+        "fields": fields,
+        "editable": writers.EDITABLE,
         "lyrics_text": lyrics_text,
         "threshold": load_settings().match_threshold,
     }
+
+
+def _editable_fields(path: Path) -> dict[str, list[str]]:
+    """The file's tags by internal name, in editor order (pseudo-fields and lyrics left out)."""
+    fields = writers.read_fields(path)
+    return {name: fields[name] for name in writers.EDITABLE if name in fields}
+
+
+class TagEdit(BaseModel):
+    # internal tag name -> new values; an empty list removes the tag
+    changes: dict[str, list[str]]
+
+
+@router.put("/track/{track_id}/tags")
+def edit_tags(track_id: str, body: TagEdit) -> dict[str, Any]:
+    t = get_track(track_id)
+    if t is None:
+        raise HTTPException(404, "Unknown track")
+    if t.status != "done" or not t.file_path or not Path(t.file_path).is_file():
+        raise HTTPException(409, "Track is not downloaded")
+    path = Path(t.file_path)
+    try:
+        writers.edit_fields(path, body.changes)
+    except ValueError as e:
+        raise HTTPException(400, str(e)) from e
+    return {"fields": _editable_fields(path)}
 
 
 @router.post("/track/{track_id}/lyrics")

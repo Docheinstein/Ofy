@@ -9,6 +9,7 @@ import { Cover } from "@/components/Cover";
 import { Input } from "@/components/ui/input";
 import { LyricsIndicator } from "@/components/StatusIcons";
 import { SyncToggle } from "@/components/SyncToggle";
+import { TrackDrawer } from "@/components/TrackDrawer";
 import { usePlayer } from "@/lib/player";
 import { useSyncSelection } from "@/lib/sync";
 import { cn, formatDuration } from "@/lib/utils";
@@ -84,6 +85,8 @@ export function LibraryPage() {
     onSuccess: () => qc.invalidateQueries(),
   });
   const lyrics = useMutation({ mutationFn: () => api.post<{ queued: number }>("/api/library/lyrics") });
+  // the song whose details (tags, match, lyrics) are open in the drawer
+  const [open, setOpen] = useState<Opened | null>(null);
 
   // Synced is decided per song: picked on its own, or brought along by its album or artist.
   const isSynced = (a: LibraryAlbum, t: LibraryTrack) =>
@@ -175,9 +178,10 @@ export function LibraryPage() {
       )}
       <div className="flex flex-col" data-testid="library-tree">
         {groups.map((g) => (
-          <ArtistNode key={g.key} group={g} filtered={filter !== "all" || !!needle} expanded={expanded} />
+          <ArtistNode key={g.key} group={g} filtered={filter !== "all" || !!needle} expanded={expanded} onOpen={setOpen} />
         ))}
       </div>
+      <TrackDrawer track={open?.track ?? null} releaseId={open?.releaseId ?? ""} onClose={() => setOpen(null)} />
     </div>
   );
 }
@@ -198,6 +202,13 @@ interface Group {
 }
 
 type Expanded = ReturnType<typeof useExpanded>;
+
+interface Opened {
+  track: LibraryTrack;
+  releaseId: string;
+}
+
+type OnOpen = (o: Opened) => void;
 
 /** Albums arrive sorted by artist → year → title; bucket them by artist, keeping that order. */
 function groupByArtist(albums: Shown[]): Group[] {
@@ -229,7 +240,7 @@ function Avatar({ group: g, className }: { group: Group; className: string }) {
 }
 
 /** An artist; unfolding it lists their albums right below. */
-function ArtistNode({ group: g, filtered, expanded }: { group: Group; filtered: boolean; expanded: Expanded }) {
+function ArtistNode({ group: g, filtered, expanded, onOpen }: { group: Group; filtered: boolean; expanded: Expanded; onOpen: OnOpen }) {
   const revealed = g.albums.some((s) => s.reveal !== "none");
   const open = expanded.isOpen(g.key, revealed);
   const songs = g.albums.reduce((n, s) => n + s.songs.length, 0);
@@ -269,7 +280,7 @@ function ArtistNode({ group: g, filtered, expanded }: { group: Group; filtered: 
       {open && (
         <div className="ml-6 border-l pl-2">
           {g.albums.map((s) => (
-            <AlbumNode key={s.album.release_id} shown={s} filtered={filtered} expanded={expanded} />
+            <AlbumNode key={s.album.release_id} shown={s} filtered={filtered} expanded={expanded} onOpen={onOpen} />
           ))}
         </div>
       )}
@@ -278,7 +289,9 @@ function ArtistNode({ group: g, filtered, expanded }: { group: Group; filtered: 
 }
 
 /** An album under its artist; unfolding it lists its downloaded songs (only those matching the filter). */
-function AlbumNode({ shown: { album: a, songs, reveal }, filtered, expanded }: { shown: Shown; filtered: boolean; expanded: Expanded }) {
+function AlbumNode({ shown: { album: a, songs, reveal }, filtered, expanded, onOpen }: {
+  shown: Shown; filtered: boolean; expanded: Expanded; onOpen: OnOpen;
+}) {
   const key = `album:${a.release_id}`;
   const open = expanded.isOpen(key, reveal === "album");
   const detail = filtered
@@ -314,14 +327,14 @@ function AlbumNode({ shown: { album: a, songs, reveal }, filtered, expanded }: {
       {open && (
         <div className="ml-8 border-l pl-2">
           {songs.length === 0 && <p className="px-3 py-2 text-sm text-muted-foreground">No songs downloaded yet.</p>}
-          <SongList album={a} songs={songs} />
+          <SongList album={a} songs={songs} onOpen={onOpen} />
         </div>
       )}
     </div>
   );
 }
 
-function SongList({ album: a, songs }: { album: LibraryAlbum; songs: LibraryTrack[] }) {
+function SongList({ album: a, songs, onOpen }: { album: LibraryAlbum; songs: LibraryTrack[]; onOpen: OnOpen }) {
   const player = usePlayer();
   const multiDisc = songs.some((t) => t.disc !== songs[0].disc);
   const playFrom = (i: number) =>
@@ -350,7 +363,7 @@ function SongList({ album: a, songs }: { album: LibraryAlbum; songs: LibraryTrac
                 <Disc className="h-3.5 w-3.5" /> Disc {t.disc}
               </div>
             )}
-            <SongRow album={a} t={t} onPlay={() => playFrom(i)} />
+            <SongRow album={a} t={t} onPlay={() => playFrom(i)} onOpen={() => onOpen({ track: t, releaseId: a.release_id })} />
           </div>
         );
       })}
@@ -358,12 +371,14 @@ function SongList({ album: a, songs }: { album: LibraryAlbum; songs: LibraryTrac
   );
 }
 
-function SongRow({ album: a, t, onPlay }: { album: LibraryAlbum; t: LibraryTrack; onPlay: () => void }) {
+/** A downloaded song: click for its details (tags, match, lyrics), double-click to play. */
+function SongRow({ album: a, t, onPlay, onOpen }: { album: LibraryAlbum; t: LibraryTrack; onPlay: () => void; onOpen: () => void }) {
   const { current, playing } = usePlayer();
   const isCurrent = current?.track_id === t.track_id;
   return (
     <div
-      className="group grid grid-cols-[2rem_1fr_1.5rem_3.5rem_2rem] items-center gap-3 rounded-md px-3 py-1.5 hover:bg-elevated"
+      className="group grid cursor-pointer grid-cols-[2rem_1fr_1.5rem_3.5rem_2rem] items-center gap-3 rounded-md px-3 py-1.5 hover:bg-elevated"
+      onClick={onOpen}
       onDoubleClick={onPlay}
       data-testid="library-song"
       data-track-id={t.track_id}
@@ -372,7 +387,11 @@ function SongRow({ album: a, t, onPlay }: { album: LibraryAlbum; t: LibraryTrack
         <span className={cn("group-hover:hidden", isCurrent && "text-primary")}>
           {isCurrent && playing ? <Volume2 className="h-4 w-4" /> : t.position}
         </span>
-        <button className="hidden text-foreground group-hover:block" onClick={onPlay} aria-label={`Play ${t.title}`}>
+        <button
+          className="hidden text-foreground group-hover:block"
+          onClick={(e) => { e.stopPropagation(); onPlay(); }}
+          aria-label={`Play ${t.title}`}
+        >
           <Play className="h-4 w-4 fill-current" />
         </button>
       </div>

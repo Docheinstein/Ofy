@@ -82,11 +82,7 @@ def _write_id3(path: Path, fields: dict[str, list[str]], cover: bytes | None) ->
         key = ID3_MAP.get(name)
         if not key:
             continue
-        if key.startswith("TXXX:"):
-            tags.add(id3.TXXX(encoding=UTF8, desc=key[5:], text=values))
-        else:
-            frame_cls = getattr(id3, key)
-            tags.add(frame_cls(encoding=UTF8, text=values))
+        tags.add(_id3_frame(key, values))
     if "tracknumber" in fields:
         tags.add(id3.TRCK(encoding=UTF8, text=_num_total(fields, "tracknumber", "totaltracks")))
     if "discnumber" in fields:
@@ -99,6 +95,12 @@ def _write_id3(path: Path, fields: dict[str, list[str]], cover: bytes | None) ->
         tags.add(id3.APIC(encoding=UTF8, mime=image_mime(cover), type=id3.PictureType.COVER_FRONT,
                           desc="Cover", data=cover))
     tags.save(path, v2_version=4, v1=0)
+
+
+def _id3_frame(key: str, values: list[str]) -> id3.Frame:
+    if key.startswith("TXXX:"):
+        return id3.TXXX(encoding=UTF8, desc=key[5:], text=values)
+    return getattr(id3, key)(encoding=UTF8, text=values)
 
 
 def _id3_lang(fields: dict[str, list[str]]) -> str:
@@ -155,6 +157,100 @@ def _write_vorbis(path: Path, fields: dict[str, list[str]], cover: bytes | None)
             f.tags[key] = values
     if cover:
         f.tags["METADATA_BLOCK_PICTURE"] = [_picture_block(cover)]
+    f.save()
+
+
+# --- edit -------------------------------------------------------------------------------------
+
+# Every internal name the editor may set or remove; lyrics have their own flow (sidecar files + set_lyrics).
+EDITABLE: list[str] = [name for name in VORBIS_MAP if name != "lyrics"]
+NUMERIC = ("tracknumber", "totaltracks", "discnumber", "totaldiscs")
+
+
+def edit_fields(path: Path, changes: dict[str, list[str]]) -> None:
+    """Set the given tags (internal names; an empty list removes the tag), leaving every other tag and the cover alone."""
+    unknown = sorted(set(changes) - set(EDITABLE))
+    if unknown:
+        raise ValueError(f"Not an editable tag: {', '.join(unknown)}")
+    changes = {name: [v.strip() for v in values if v.strip()] for name, values in changes.items()}
+    for name in NUMERIC:
+        values = changes.get(name, [])
+        if len(values) > 1 or any(not v.isdigit() for v in values):
+            raise ValueError(f"{name} must be a single whole number")
+    if changes.get("compilation", []) not in ([], ["0"], ["1"]):
+        raise ValueError("compilation must be 1 or 0")
+    merged = {**read_fields(path), **changes}
+    for n, t in (("tracknumber", "totaltracks"), ("discnumber", "totaldiscs")):
+        if merged.get(t) and not merged.get(n):
+            raise ValueError(f"{t} needs {n}")
+    k = kind_of(path)
+    if k == "mp3":
+        _edit_id3(path, changes, merged)
+    elif k == "m4a":
+        _edit_mp4(path, changes, merged)
+    else:
+        _edit_vorbis(path, changes)
+
+
+def _first(fields: dict[str, list[str]], name: str) -> str | None:
+    values = fields.get(name)
+    return values[0] if values else None
+
+
+def _edit_id3(path: Path, changes: dict[str, list[str]], merged: dict[str, list[str]]) -> None:
+    try:
+        tags = id3.ID3(path)
+    except id3.ID3NoHeaderError:
+        tags = id3.ID3()
+    for name, values in changes.items():
+        if name in ("tracknumber", "totaltracks", "discnumber", "totaldiscs"):
+            frame, n, t = ("TRCK", "tracknumber", "totaltracks") if "track" in name else ("TPOS", "discnumber", "totaldiscs")
+            tags.delall(frame)
+            if num := _first(merged, n):
+                total = _first(merged, t)
+                tags.add(getattr(id3, frame)(encoding=UTF8, text=f"{num}/{total}" if total else num))
+        elif name == "musicbrainz_recordingid":
+            tags.delall(f"UFID:{UFID_OWNER}")
+            if values:
+                tags.add(id3.UFID(owner=UFID_OWNER, data=values[0].encode("ascii", "replace")))
+        else:
+            key = ID3_MAP[name]
+            tags.delall(key)
+            if values:
+                tags.add(_id3_frame(key, values))
+    tags.save(path, v2_version=4, v1=0)
+
+
+def _edit_mp4(path: Path, changes: dict[str, list[str]], merged: dict[str, list[str]]) -> None:
+    f = MP4(path)
+    if f.tags is None:
+        f.add_tags()
+    for name, values in changes.items():
+        if name in ("tracknumber", "totaltracks", "discnumber", "totaldiscs"):
+            atom, n, t = ("trkn", "tracknumber", "totaltracks") if "track" in name else ("disk", "discnumber", "totaldiscs")
+            f.tags.pop(atom, None)
+            if num := _first(merged, n):
+                f.tags[atom] = [(int(num), int(_first(merged, t) or 0))]
+        elif name == "compilation":
+            f.tags.pop("cpil", None)
+            if values == ["1"]:
+                f.tags["cpil"] = True
+        else:
+            key = MP4_MAP[name]
+            f.tags.pop(key, None)
+            if values:
+                f.tags[key] = [MP4FreeForm(v.encode("utf-8")) for v in values] if key.startswith(FF) else values
+    f.save()
+
+
+def _edit_vorbis(path: Path, changes: dict[str, list[str]]) -> None:
+    f = OggOpus(path)
+    for name, values in changes.items():
+        key = VORBIS_MAP[name]
+        if key in f.tags:
+            del f.tags[key]
+        if values:
+            f.tags[key] = values
     f.save()
 
 

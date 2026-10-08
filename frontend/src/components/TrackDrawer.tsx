@@ -10,8 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LyricsIndicator, TrackStatusButton } from "./StatusIcons";
+import { TagEditor } from "./TagEditor";
 
-export function TrackDrawer({ track, releaseId, onClose }: { track: TrackRowData | null; releaseId: string; onClose: () => void }) {
+/** What the drawer needs of a track: an album's track row, or a downloaded song in the library (no `library` state). */
+export type DrawerTrack = Pick<TrackRowData, "track_id" | "title" | "artist" | "disc" | "position" | "length_ms"> &
+  Partial<Pick<TrackRowData, "library">>;
+
+export function TrackDrawer({ track, releaseId, onClose }: { track: DrawerTrack | null; releaseId: string; onClose: () => void }) {
   return (
     <Sheet open={!!track} onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="overflow-y-auto">
@@ -21,7 +26,7 @@ export function TrackDrawer({ track, releaseId, onClose }: { track: TrackRowData
   );
 }
 
-function DrawerBody({ track, releaseId }: { track: TrackRowData; releaseId: string }) {
+function DrawerBody({ track, releaseId }: { track: DrawerTrack; releaseId: string }) {
   const qc = useQueryClient();
   const live = useLiveTrack(track.track_id);
   const { data, isLoading, error } = useQuery({
@@ -32,7 +37,7 @@ function DrawerBody({ track, releaseId }: { track: TrackRowData; releaseId: stri
   const notInDb = error instanceof ApiError && error.status === 404;
   const actions = useTrackActions(releaseId);
   const [searching, setSearching] = useState(false);
-  const status = live?.status ?? data?.status ?? track.library.status;
+  const status = live?.status ?? data?.status ?? track.library?.status ?? "none";
 
   const findCandidates = async () => {
     setSearching(true);
@@ -95,18 +100,24 @@ function DrawerBody({ track, releaseId }: { track: TrackRowData; releaseId: stri
           {notInDb && <p className="text-sm text-muted-foreground">Not downloaded yet.</p>}
           {data && !data.tags && <p className="text-sm text-muted-foreground">No file on disk yet.</p>}
           {data?.tags && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <p className="break-all font-mono text-xs text-muted-foreground">{data.file_path}</p>
-              <table className="w-full text-xs">
-                <tbody>
-                  {Object.entries(data.tags).map(([k, v]) => (
-                    <tr key={k} className="border-b border-border/50 align-top">
-                      <td className="whitespace-nowrap py-1.5 pr-3 font-medium text-muted-foreground">{k}</td>
-                      <td className="break-all py-1.5 font-mono">{v.join(" ; ")}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              {data.fields && status === "done" && (
+                <TagEditor key={JSON.stringify(data.fields)} trackId={track.track_id} fields={data.fields} editable={data.editable} />
+              )}
+              <details className="text-xs">
+                <summary className="cursor-pointer text-muted-foreground hover:text-foreground">Raw tags in the file</summary>
+                <table className="mt-2 w-full text-xs">
+                  <tbody>
+                    {Object.entries(data.tags).map(([k, v]) => (
+                      <tr key={k} className="border-b border-border/50 align-top">
+                        <td className="whitespace-nowrap py-1.5 pr-3 font-medium text-muted-foreground">{k}</td>
+                        <td className="break-all py-1.5 font-mono">{v.join(" ; ")}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </details>
             </div>
           )}
         </TabsContent>
